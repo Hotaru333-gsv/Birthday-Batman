@@ -4,10 +4,7 @@
 <meta charset="UTF-8">
 <title>Gotham Logs 🦇</title>
 
-<!-- Cache fix -->
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0">
 
 <style>
 body {
@@ -20,7 +17,7 @@ body {
   overflow: hidden;
   color: #e5e7eb;
 
-  background: url('Joker.jpeg?v=1') no-repeat center/cover;
+  background: url('Joker.jpeg?v=3') no-repeat center/cover;
 }
 
 body::before {
@@ -37,25 +34,13 @@ body::before {
   height: 10px;
   border-radius: 50%;
   background: #00ffd5;
-  box-shadow: 0 0 20px #00ffd5, 0 0 40px #00ffd5;
+  box-shadow: 0 0 20px #00ffd5;
   animation: float 8s linear infinite;
 }
 
 @keyframes float {
   from { transform: translateY(100vh); }
   to { transform: translateY(-10vh); }
-}
-
-/* moon */
-.moon {
-  font-size: 35px;
-  text-align: center;
-  animation: floatMoon 3s ease-in-out infinite alternate;
-}
-
-@keyframes floatMoon {
-  from { transform: translateY(0); }
-  to { transform: translateY(-8px); }
 }
 
 /* card */
@@ -70,14 +55,11 @@ body::before {
   box-shadow: 0 0 40px rgba(0,255,200,0.3);
 }
 
-/* headings */
 h2 {
   color: #00ffd5;
   text-align: center;
-  text-shadow: 0 0 10px #00ffd5;
 }
 
-/* text */
 p {
   font-size: 13px;
   line-height: 1.6;
@@ -118,6 +100,11 @@ button:hover {
 
 <body>
 
+<!-- 🎵 BACKGROUND MUSIC -->
+<audio id="bg-music" loop>
+  <source src="Jupiter.mp4" type="audio/mp4">
+</audio>
+
 <!-- particles -->
 <script>
 for(let i=0;i<35;i++){
@@ -131,7 +118,6 @@ for(let i=0;i<35;i++){
 
 <!-- SCREEN 1 -->
 <div class="card" id="s1">
-<div class="moon">🌙</div>
 <h2>🦇 GOTHAM SIGNAL: 0402</h2>
 
 <p>
@@ -159,7 +145,6 @@ If you’re still out there…<br>
 
 <!-- SCREEN 2 -->
 <div class="card hidden" id="s2">
-<div class="moon">🌙</div>
 <h2>🌃 Night Log 01</h2>
 
 <p>
@@ -189,7 +174,6 @@ Don’t make me come looking for you.
 
 <!-- SCREEN 3 -->
 <div class="card hidden" id="s3">
-<div class="moon">🌙</div>
 <h2>🌑 Night Log 02</h2>
 
 <p>
@@ -216,7 +200,6 @@ So I’ll say it once.<br>
 
 <!-- SCREEN 4 -->
 <div class="card hidden" id="s4">
-<div class="moon">🌙</div>
 <h2>🔥 Incoming Transmission</h2>
 
 <p>
@@ -242,7 +225,6 @@ You weren’t lost.<br>
 
 <!-- SCREEN 5 -->
 <div class="card hidden" id="s5">
-<div class="moon">🌙</div>
 <h2>❤️ Final Signal</h2>
 
 <p>
@@ -269,8 +251,14 @@ Just don’t disappear again.<br><br>
 <button onclick="go('s5','s1')">↻ Restart Transmission</button>
 </div>
 
+<!-- 🎵 SCRIPT -->
 <script>
+const music = document.getElementById("bg-music");
+
 function go(from,to){
+  if (music.paused) {
+    music.play().catch(()=>{});
+  }
   document.getElementById(from).classList.add("hidden");
   document.getElementById(to).classList.remove("hidden");
 }
