@@ -2,18 +2,18 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Batman Message 🦇</title>
+<title>Classified 🦇</title>
 
 <style>
 body {
   margin: 0;
   height: 100vh;
   overflow: hidden;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: 'Courier New', monospace;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: white;
+  color: #e6e6e6;
 
   /* 🦇 Batman background */
   background: url('Batsman.jpeg') no-repeat center/cover;
@@ -24,17 +24,17 @@ body::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(0,0,0,0.6);
+  background: rgba(0,0,0,0.7);
 }
 
 /* Floating particles */
 .particle {
   position: absolute;
-  width: 6px;
-  height: 6px;
-  background: rgba(0,255,200,0.7);
+  width: 5px;
+  height: 5px;
+  background: rgba(255,255,255,0.4);
   border-radius: 50%;
-  animation: float 10s infinite linear;
+  animation: float 12s linear infinite;
 }
 
 @keyframes float {
@@ -46,41 +46,30 @@ body::before {
 .card {
   position: relative;
   z-index: 2;
-  width: 350px;
-  padding: 35px;
-  border-radius: 25px;
+  width: 380px;
+  padding: 30px;
+  border-radius: 20px;
 
-  /* Glass effect */
-  background: rgba(20,20,20,0.6);
+  background: rgba(20,20,20,0.65);
   backdrop-filter: blur(10px);
 
-  text-align: center;
-  box-shadow: 0 0 40px rgba(0,255,200,0.2);
+  box-shadow: 0 0 30px rgba(0,0,0,0.8);
+  text-align: left;
 }
 
-/* Moon */
-.moon {
-  font-size: 40px;
-  animation: floatMoon 3s ease-in-out infinite alternate;
-}
-
-@keyframes floatMoon {
-  from { transform: translateY(0); }
-  to { transform: translateY(-10px); }
-}
-
-/* Title */
+/* Titles */
 h1 {
-  color: #00ffd5;
+  color: #ffdd00;
+  text-align: center;
 }
 
-/* Button */
 button {
-  margin-top: 20px;
-  padding: 12px 25px;
-  border-radius: 25px;
+  display: block;
+  margin: 20px auto 0;
+  padding: 10px 20px;
+  border-radius: 20px;
   border: none;
-  background: #00ffd5;
+  background: #ffdd00;
   color: black;
   font-weight: bold;
   cursor: pointer;
@@ -95,53 +84,60 @@ button {
 
 <body>
 
-<!-- Floating particles -->
+<!-- Particles -->
 <script>
-for(let i=0;i<25;i++){
+for(let i=0;i<20;i++){
   let p=document.createElement("div");
   p.className="particle";
   p.style.left=Math.random()*100+"vw";
-  p.style.animationDuration=(5+Math.random()*5)+"s";
+  p.style.animationDuration=(6+Math.random()*6)+"s";
   document.body.appendChild(p);
 }
 </script>
 
 <!-- SCREEN 1 -->
 <div class="card" id="screen1">
-  <div class="moon">🌙</div>
 
-  <h1>Can we meet?</h1>
+  <h1>🦇 CLASSIFIED FILE</h1>
 
   <p>
-    Hey... I know things were a bit heavy,<br>
-    but I’d really like to meet you<br>
-    and just talk calmly 💛
+  Subject: Akshay<br>
+  Status: Under Observation<br><br>
+
+  Gotham has found its hero…<br>
+  But tonight, the city whispers something more.<br><br>
+
+  "Sometimes it's not who we are underneath,<br>
+  but what we do that defines us."<br><br>
+
+  And what you do… makes my world better every day.<br><br>
+
+  <b>Happy Birthday, Detective. 🦇</b><br>
+  — Someone watching from the shadows
   </p>
 
-  <button onclick="nextScreen()">Yes 🥺</button>
+  <button onclick="nextScreen()">Open Final File</button>
+
 </div>
 
 <!-- SCREEN 2 -->
 <div class="card hidden" id="screen2">
 
-  <h1>🦇 GOTHAM TRANSMISSION</h1>
+  <h1>🖤 FINAL REVEAL</h1>
 
   <p>
-    To: Akshay 🖤<br><br>
+  You kept looking for clues…<br><br>
 
-    In a city full of chaos…<br>
-    I found my calm in you.<br><br>
+  But the truth is—<br>
+  this was never a mystery.<br><br>
 
-    You may not be Batman…<br>
-    But to me, you are my hero 🦇💖<br><br>
+  It was always you.<br><br>
 
-    🎉 Happy Birthday 🎉<br><br>
-
-    I don’t need a signal in the sky…<br>
-    Because I already found my Batman.
+  <b>Happy Birthday, Akshay. 🖤</b>
   </p>
 
   <button onclick="restart()">Back</button>
+
 </div>
 
 <script>
