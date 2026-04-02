@@ -17,7 +17,7 @@ body {
   overflow: hidden;
   color: #e5e7eb;
 
-  background: url('Joker.jpeg?v=3') no-repeat center/cover;
+  background: url('Joker.jpeg?v=5') no-repeat center/cover;
 }
 
 body::before {
@@ -101,8 +101,8 @@ button:hover {
 <body>
 
 <!-- 🎵 BACKGROUND MUSIC -->
-<audio id="bg-music" loop>
-  <source src="Jupiter.mp4" type="audio/mp4">
+<audio id="bg-music" preload="auto" loop>
+  <source src="music.mp3?v=5" type="audio/mpeg">
 </audio>
 
 <!-- particles -->
@@ -254,11 +254,21 @@ Just don’t disappear again.<br><br>
 <!-- 🎵 SCRIPT -->
 <script>
 const music = document.getElementById("bg-music");
+let started = false;
+
+function startMusic() {
+  if (!started) {
+    music.play().then(() => {
+      started = true;
+    }).catch(() => {});
+  }
+}
+
+document.addEventListener("click", startMusic);
+document.addEventListener("touchstart", startMusic);
 
 function go(from,to){
-  if (music.paused) {
-    music.play().catch(()=>{});
-  }
+  startMusic();
   document.getElementById(from).classList.add("hidden");
   document.getElementById(to).classList.remove("hidden");
 }
