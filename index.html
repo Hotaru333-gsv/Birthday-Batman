@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Mystery 🦇</title>
+<title>Batman Message 🦇</title>
 
 <style>
 body {
@@ -14,8 +14,8 @@ body {
   justify-content: center;
   align-items: center;
 
-  /* 🦇 Background */
-  background: url('Batsman.jpeg') no-repeat center/cover;
+  /* 🎭 Joker Background */
+  background: url('Joker.jpeg') no-repeat center/cover;
 }
 
 /* Overlay */
@@ -23,17 +23,17 @@ body::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at center, rgba(0,0,0,0.5), #020617);
+  background: radial-gradient(circle, rgba(0,0,0,0.6), #020617);
 }
 
-/* 🌟 Glowing particles */
+/* Glowing particles */
 .particle {
   position: absolute;
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: rgba(0,255,200,0.9);
-  box-shadow: 0 0 15px #00ffd5, 0 0 30px #00ffd5;
+  background: #00ffd5;
+  box-shadow: 0 0 20px #00ffd5;
   animation: floatUp 10s linear infinite;
 }
 
@@ -42,30 +42,29 @@ body::before {
   to { transform: translateY(-10vh); }
 }
 
-/* 📱 Mobile card */
+/* Card */
 .card {
   position: relative;
   z-index: 2;
   width: 320px;
   padding: 30px;
   border-radius: 25px;
+  text-align: center;
 
   background: rgba(15,15,20,0.7);
   backdrop-filter: blur(15px);
 
-  text-align: center;
-  color: white;
-
   box-shadow: 0 0 40px rgba(0,255,200,0.3);
+  color: white;
 }
 
-/* Moon */
-.moon {
-  font-size: 45px;
-  animation: floatMoon 3s ease-in-out infinite alternate;
+/* Floating icons */
+.float {
+  font-size: 40px;
+  animation: floatIcon 3s ease-in-out infinite alternate;
 }
 
-@keyframes floatMoon {
+@keyframes floatIcon {
   from { transform: translateY(0); }
   to { transform: translateY(-8px); }
 }
@@ -73,14 +72,6 @@ body::before {
 /* Title */
 h1 {
   color: #00ffd5;
-  margin: 10px 0;
-}
-
-/* Text */
-p {
-  font-size: 14px;
-  line-height: 1.6;
-  color: #cbd5f5;
 }
 
 /* Highlight */
@@ -101,6 +92,16 @@ button {
   box-shadow: 0 0 20px #00ffd5;
 }
 
+/* Input */
+input {
+  margin-top: 15px;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  width: 80%;
+  text-align: center;
+}
+
 /* Hidden */
 .hidden {
   display: none;
@@ -110,7 +111,7 @@ button {
 
 <body>
 
-<!-- 🌟 Particles -->
+<!-- particles -->
 <script>
 for(let i=0;i<30;i++){
   let p=document.createElement("div");
@@ -124,9 +125,9 @@ for(let i=0;i<30;i++){
 <!-- SCREEN 1 -->
 <div class="card" id="screen1">
 
-  <div class="moon">🌙</div>
+  <div class="float">🌙</div>
 
-  <h1>Private Repo Confession</h1>
+  <h1>Message from the Shadows</h1>
 
   <p>
   🕶️ <b>CLASSIFIED FILE</b><br><br>
@@ -147,14 +148,16 @@ for(let i=0;i<30;i++){
   <b>Happy Birthday, Detective. 🦇</b>
   </p>
 
-  <button onclick="nextScreen()">Open Case File</button>
+  <button onclick="nextScreen()">Continue</button>
 
 </div>
 
 <!-- SCREEN 2 -->
 <div class="card hidden" id="screen2">
 
-  <h1>Mystery Solved 🖤</h1>
+  <div class="float">💜</div>
+
+  <h1>Mystery Solved</h1>
 
   <p>
   You kept looking for clues…<br><br>
@@ -162,14 +165,33 @@ for(let i=0;i<30;i++){
   But the truth is—<br>
   this was never a mystery.<br><br>
 
-  <span class="highlight">
-  It was always you.
-  </span><br><br>
+  <span class="highlight">It was always you.</span><br><br>
 
-  Happy Birthday, Akshay. 🖤
+  Happy Birthday, Akshay 🖤
   </p>
 
-  <button onclick="restart()">Back</button>
+  <button onclick="goRiddle()">Final Challenge</button>
+
+</div>
+
+<!-- SCREEN 3 (RIDDLE) -->
+<div class="card hidden" id="screen3">
+
+  <h1>🦇 Final Riddle</h1>
+
+  <p>
+  I appear when the city is in danger,<br>
+  shining high in the sky.<br><br>
+
+  I call the hero of Gotham—<br>
+  who am I?
+  </p>
+
+  <input type="text" id="answer" placeholder="Type your answer...">
+
+  <button onclick="checkAnswer()">Submit</button>
+
+  <p id="result"></p>
 
 </div>
 
@@ -179,9 +201,21 @@ function nextScreen(){
   document.getElementById("screen2").classList.remove("hidden");
 }
 
-function restart(){
+function goRiddle(){
   document.getElementById("screen2").classList.add("hidden");
-  document.getElementById("screen1").classList.remove("hidden");
+  document.getElementById("screen3").classList.remove("hidden");
+}
+
+function checkAnswer(){
+  let ans = document.getElementById("answer").value.toLowerCase();
+
+  if(ans.includes("bat signal") || ans.includes("signal")){
+    document.getElementById("result").innerHTML =
+    "🎉 Correct! Happy Birthday Akshay 🦇💖";
+  } else {
+    document.getElementById("result").innerHTML =
+    "❌ Not quite… try again!";
+  }
 }
 </script>
 
