@@ -4,6 +4,11 @@
 <meta charset="UTF-8">
 <title>Gotham Logs 🦇</title>
 
+<!-- Cache fix -->
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+
 <style>
 body {
   margin: 0;
@@ -15,7 +20,7 @@ body {
   overflow: hidden;
   color: #e5e7eb;
 
-  background: url('Joker.jpeg') no-repeat center/cover;
+  background: url('Joker.jpeg?v=1') no-repeat center/cover;
 }
 
 body::before {
@@ -25,7 +30,7 @@ body::before {
   background: rgba(0,0,0,0.75);
 }
 
-/* 🌟 glowing particles */
+/* particles */
 .particle {
   position: absolute;
   width: 10px;
@@ -41,7 +46,7 @@ body::before {
   to { transform: translateY(-10vh); }
 }
 
-/* 🌙 moon */
+/* moon */
 .moon {
   font-size: 35px;
   text-align: center;
@@ -60,7 +65,7 @@ body::before {
   width: 340px;
   padding: 25px;
   border-radius: 20px;
-  background: rgba(15,15,20,0.8);
+  background: rgba(15,15,20,0.85);
   backdrop-filter: blur(10px);
   box-shadow: 0 0 40px rgba(0,255,200,0.3);
 }
@@ -78,7 +83,7 @@ p {
   line-height: 1.6;
 }
 
-/* ✨ highlight */
+/* highlight */
 .highlight {
   color: #ffd166;
   font-weight: bold;
@@ -87,7 +92,7 @@ p {
 /* buttons */
 button {
   margin-top: 15px;
-  padding: 10px;
+  padding: 12px;
   width: 100%;
   border-radius: 10px;
   border: none;
@@ -96,6 +101,12 @@ button {
   font-weight: bold;
   cursor: pointer;
   box-shadow: 0 0 20px #00ffd5;
+  transition: 0.3s;
+}
+
+button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 30px #00ffd5;
 }
 
 /* hidden */
@@ -143,7 +154,7 @@ If you’re still out there…<br>
 <span class="highlight">prove it.</span>
 </p>
 
-<button onclick="go('s1','s2')">→ Open /logs/night_01.md</button>
+<button onclick="go('s1','s2')">→ Continue</button>
 </div>
 
 <!-- SCREEN 2 -->
@@ -173,7 +184,7 @@ why does it feel like you took the <span class="highlight">calm</span> with you?
 Don’t make me come looking for you.
 </p>
 
-<button onclick="go('s2','s3')">→ Open /logs/night_02.md</button>
+<button onclick="go('s2','s3')">→ Keep Reading</button>
 </div>
 
 <!-- SCREEN 3 -->
@@ -200,7 +211,7 @@ So I’ll say it once.<br>
 <span class="highlight">Come back.</span>
 </p>
 
-<button onclick="go('s3','s4')">→ Execute /response.log</button>
+<button onclick="go('s3','s4')">→ I’m Listening</button>
 </div>
 
 <!-- SCREEN 4 -->
@@ -226,7 +237,7 @@ You weren’t lost.<br>
 <span class="highlight">You were being watched.</span>
 </p>
 
-<button onclick="go('s4','s5')">→ Open /final_signal.md</button>
+<button onclick="go('s4','s5')">→ Reveal Message</button>
 </div>
 
 <!-- SCREEN 5 -->
@@ -255,7 +266,7 @@ Just don’t disappear again.<br><br>
 <span class="highlight">Next time… I’ll come find you. 🦇</span>
 </p>
 
-<button onclick="go('s5','s1')">↻ Restart System</button>
+<button onclick="go('s5','s1')">↻ Restart Transmission</button>
 </div>
 
 <script>
