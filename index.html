@@ -2,239 +2,235 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Batman Cinematic 🦇</title>
+<title>Gotham Logs 🦇</title>
 
 <style>
 body {
   margin: 0;
   height: 100vh;
-  overflow: hidden;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: monospace;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: white;
+  overflow: hidden;
+  color: #e5e7eb;
 
   background: url('Joker.jpeg') no-repeat center/cover;
 }
 
-/* overlay */
 body::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(0,0,0,0.7);
-}
-
-/* particles */
-.particle {
-  position: absolute;
-  width: 6px;
-  height: 6px;
-  background: #00ffd5;
-  border-radius: 50%;
-  box-shadow: 0 0 15px #00ffd5;
-  animation: float 10s linear infinite;
-}
-
-@keyframes float {
-  from { transform: translateY(100vh); }
-  to { transform: translateY(-10vh); }
+  background: rgba(0,0,0,0.75);
 }
 
 /* card */
 .card {
   position: relative;
   z-index: 2;
-  width: 320px;
-  padding: 30px;
-  border-radius: 25px;
+  width: 340px;
+  padding: 25px;
+  border-radius: 20px;
+  background: rgba(15,15,20,0.8);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 40px rgba(0,255,200,0.2);
+}
+
+/* title */
+h2 {
+  color: #00ffd5;
   text-align: center;
-
-  background: rgba(15,15,20,0.75);
-  backdrop-filter: blur(15px);
-
-  box-shadow: 0 0 40px rgba(0,255,200,0.3);
-  opacity: 1;
-  transition: opacity 0.6s ease;
 }
 
-.fade-out {
-  opacity: 0;
-}
-
-/* floating */
-.float {
-  font-size: 40px;
-  animation: floatY 3s ease-in-out infinite alternate;
-}
-
-@keyframes floatY {
-  from { transform: translateY(0); }
-  to { transform: translateY(-10px); }
+/* text */
+p {
+  font-size: 13px;
+  line-height: 1.6;
 }
 
 /* button */
 button {
-  margin-top: 20px;
-  padding: 12px 25px;
-  border-radius: 25px;
+  margin-top: 15px;
+  padding: 10px;
+  width: 100%;
+  border-radius: 10px;
   border: none;
   background: #00ffd5;
   color: black;
   font-weight: bold;
   cursor: pointer;
-  box-shadow: 0 0 20px #00ffd5;
 }
 
 /* hidden */
 .hidden {
   display: none;
 }
-
-/* typing */
-#typing {
-  white-space: pre-line;
-  font-size: 14px;
-  line-height: 1.6;
-}
-
-/* bat signal */
-#signal {
-  position: absolute;
-  top: 20%;
-  font-size: 80px;
-  display: none;
-  animation: glow 1s infinite alternate;
-}
-
-@keyframes glow {
-  from { text-shadow: 0 0 10px #fff; }
-  to { text-shadow: 0 0 40px #ffdd00; }
-}
 </style>
 </head>
 
 <body>
 
-<audio id="music">
-  <source src="happy-birthday.mp3" type="audio/mpeg">
-</audio>
-
-<div id="signal">🦇</div>
-
-<script>
-for(let i=0;i<25;i++){
-  let p=document.createElement("div");
-  p.className="particle";
-  p.style.left=Math.random()*100+"vw";
-  p.style.animationDuration=(5+Math.random()*5)+"s";
-  document.body.appendChild(p);
-}
-</script>
-
 <!-- SCREEN 1 -->
-<div class="card" id="screen1">
-  <div class="float">🌙</div>
-  <h2>Message from the Shadows</h2>
+<div class="card" id="s1">
+<h2>🦇 GOTHAM SIGNAL: 0402</h2>
 
-  <div id="typing"></div>
+<p>
+Status: Unresolved<br><br>
 
-  <button onclick="start()">Continue</button>
+A city like this teaches you patterns.<br><br>
+
+You notice the quiet.<br>
+You notice the absence.<br>
+You notice… when someone who’s supposed to be there isn’t.<br><br>
+
+A shadow used to pass by here.<br>
+Kept things in place.<br>
+Kept me in place.<br><br>
+
+Now it’s just silence.<br>
+And I don’t like it.<br><br>
+
+If you’re still out there…<br>
+prove it.
+</p>
+
+<button onclick="go('s1','s2')">→ /logs/night_01.md</button>
 </div>
 
 <!-- SCREEN 2 -->
-<div class="card hidden" id="screen2">
-  <div class="float">💜</div>
-  <h2>Mystery Solved</h2>
+<div class="card hidden" id="s2">
+<h2>🌃 Night Log 01</h2>
 
-  <p>
-  You kept looking for clues…<br><br>
-  But the truth is—<br>
-  this was never a mystery.<br><br>
-  <b>It was always you.</b><br><br>
-  Happy Birthday, Akshay 🖤
-  </p>
+<p>
+I tried to ignore it at first.<br><br>
 
-  <button onclick="showRiddle()">Final Challenge</button>
+Thought maybe Gotham just had a quiet night.<br><br>
+
+But you don’t disappear like that.<br>
+Not you.<br><br>
+
+You’re the kind of presence people don’t question.<br>
+You’re just… there.<br><br>
+
+Annoyingly consistent.<br>
+Dangerously reliable.<br><br>
+
+So where did you go?<br><br>
+
+Or better question—<br>
+why does it feel like you took the calm with you?<br><br>
+
+Don’t make me come looking for you.
+</p>
+
+<button onclick="go('s2','s3')">→ /logs/night_02.md</button>
 </div>
 
 <!-- SCREEN 3 -->
-<div class="card hidden" id="screen3">
-  <h2>🦇 Final Riddle</h2>
+<div class="card hidden" id="s3">
+<h2>🌑 Night Log 02</h2>
 
-  <p>
-  I appear in the sky when danger is near,<br>
-  calling a hero Gotham holds dear.<br><br>
-  Who am I?
-  </p>
+<p>
+This wasn’t supposed to happen.<br><br>
 
-  <input id="answer" placeholder="Type answer...">
-  <button onclick="check()">Submit</button>
+People like me don’t depend on shadows.<br><br>
 
-  <p id="result"></p>
+But you made it easy.<br>
+Too easy.<br><br>
+
+Somewhere between all your silent rescues…<br>
+you became something I didn’t plan for.<br><br>
+
+And now?<br><br>
+
+Now the city feels off without you.<br>
+Too loud.<br>
+Too empty.<br><br>
+
+So I’ll say it once.<br>
+Only once.<br><br>
+
+Come back.
+</p>
+
+<button onclick="go('s3','s4')">→ /response.log</button>
+</div>
+
+<!-- SCREEN 4 -->
+<div class="card hidden" id="s4">
+<h2>🔥 Incoming Transmission</h2>
+
+<p>
+You always were bad at waiting.<br><br>
+
+I never left.<br>
+You just finally started looking for me.<br><br>
+
+Gotham still needs me.<br>
+But lately…<br><br>
+
+I’ve noticed something else does too.<br><br>
+
+You call it coincidence.<br>
+I call it timing.<br><br>
+
+And for the record—<br><br>
+
+I knew it was you the moment the signal felt… different.<br><br>
+
+You weren’t lost.<br>
+You just didn’t realize you were being watched.
+</p>
+
+<button onclick="go('s4','s5')">→ /final_signal.md</button>
+</div>
+
+<!-- SCREEN 5 -->
+<div class="card hidden" id="s5">
+<h2>❤️ Final Signal</h2>
+
+<p>
+So here it is.<br><br>
+
+No more shadows.<br>
+No more distance.<br><br>
+
+<b>Happy Birthday, Akshay 🖤</b><br><br>
+
+Yeah… I knew it was you all along too.<br><br>
+
+You act like you’re the one watching over everything.<br>
+Calm. Collected. Unbothered.<br><br>
+
+Very “dark knight” of you.<br><br>
+
+But here’s the truth you don’t say out loud—<br><br>
+
+even you let someone in.<br><br>
+
+And somehow…<br>
+that someone became me.<br><br>
+
+So keep the city.<br>
+Keep the shadows.<br>
+Keep the mystery.<br><br>
+
+Just don’t disappear on me again.<br><br>
+
+Because next time…<br>
+I won’t just send signals.<br><br>
+
+<b>I’ll come find you. 🦇</b>
+</p>
+
+<button onclick="go('s5','s1')">Restart</button>
 </div>
 
 <script>
-const text = `🕶️ CLASSIFIED FILE
-
-Subject: Akshay
-Status: Under Observation
-
-Gotham has found its hero…
-But tonight, the city whispers something more.
-
-"Sometimes it's not who we are underneath,
-but what we do that defines us."
-
-And what you do… makes my world better every day.
-
-Happy Birthday, Detective. 🦇`;
-
-let i=0;
-
-function typeWriter(){
-  if(i < text.length){
-    document.getElementById("typing").innerHTML += text.charAt(i);
-    i++;
-    setTimeout(typeWriter,20);
-  }
-}
-
-typeWriter();
-
-function start(){
-  document.getElementById("music").play();
-
-  document.getElementById("signal").style.display="block";
-
-  setTimeout(()=>{
-    document.getElementById("signal").style.display="none";
-    switchScreen("screen1","screen2");
-  },2000);
-}
-
-function showRiddle(){
-  switchScreen("screen2","screen3");
-}
-
-function switchScreen(hide,show){
-  document.getElementById(hide).classList.add("fade-out");
-  setTimeout(()=>{
-    document.getElementById(hide).classList.add("hidden");
-    document.getElementById(show).classList.remove("hidden");
-  },500);
-}
-
-function check(){
-  let ans=document.getElementById("answer").value.toLowerCase();
-  if(ans.includes("signal")){
-    document.getElementById("result").innerHTML =
-    "🎉 Correct! Happy Birthday Senpai 🦇💖";
-  } else {
-    document.getElementById("result").innerHTML =
-    "❌ Try again...";
-  }
+function go(from,to){
+  document.getElementById(from).classList.add("hidden");
+  document.getElementById(to).classList.remove("hidden");
 }
 </script>
 
