@@ -8,12 +8,12 @@
 body {
   margin: 0;
   height: 100vh;
-  overflow: hidden;
-  font-family: Arial;
+  font-family: monospace;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: white;
+  color: #00ff9f;
+  overflow: hidden;
 
   /* 🌆 OUTSIDE BACKGROUND */
   background: url('Gotham.jpeg') no-repeat center/cover;
@@ -23,54 +23,42 @@ body {
 body::before {
   content: "";
   position: absolute;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.7);
-  z-index: 0;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
 }
 
 /* 🟡 Card */
 .card {
   position: relative;
   z-index: 2;
-  padding: 40px;
+  padding: 30px;
   border-radius: 20px;
-  text-align: center;
-  width: 360px;
-
-  /* 🖼️ INSIDE BACKGROUND */
+  width: 380px;
   background: url('Batman.jpeg') no-repeat center/cover;
-
-  /* Glow */
-  box-shadow: 0 0 20px #ffdd00,
-              0 0 40px #ffdd00,
-              0 0 60px rgba(255,221,0,0.6);
+  box-shadow: 0 0 25px #ffdd00, 0 0 60px rgba(255,221,0,0.6);
 }
 
-/* Inner overlay */
+/* Inner dark */
 .card::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(0,0,0,0.6);
+  background: rgba(0,0,0,0.8);
   border-radius: 20px;
   z-index: -1;
 }
 
 /* Title */
 h1 {
+  text-align: center;
   color: #ffdd00;
   text-shadow: 0 0 10px #ffdd00;
 }
 
-/* Text */
-p {
-  color: #ddd;
-}
-
 /* Button */
 button {
-  margin-top: 15px;
+  display: block;
+  margin: 15px auto;
   padding: 12px 20px;
   border-radius: 25px;
   border: none;
@@ -81,52 +69,127 @@ button {
   box-shadow: 0 0 15px #ffdd00;
 }
 
-/* Message */
-#message {
+/* Terminal text */
+#terminal {
   margin-top: 20px;
+  font-size: 14px;
+  white-space: pre-line;
   display: none;
-  animation: fadeIn 1s ease;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+/* Flicker */
+.flicker {
+  animation: flicker 1.5s infinite;
+}
+
+@keyframes flicker {
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+    opacity: 1;
+  }
+  20%, 24%, 55% {
+    opacity: 0.3;
+  }
+}
+
+/* Bat signal */
+#signal {
+  display: none;
+  text-align: center;
+  font-size: 40px;
+  animation: glow 1s infinite alternate;
+}
+
+@keyframes glow {
+  from { text-shadow: 0 0 10px #ffdd00; }
+  to { text-shadow: 0 0 30px #ffdd00; }
 }
 </style>
 </head>
 
 <body>
 
-<!-- 🎵 MUSIC (you must upload this file) -->
 <audio id="music">
   <source src="happy-birthday.mp3" type="audio/mpeg">
 </audio>
 
 <div class="card">
 
-  <h1>Happy Birthday Akshay 🖤</h1>
+  <h1>Happy Birthday Akshay 🦇</h1>
 
-  <p>
-    High above Gotham,<br>
-    a legend watches the city 🦇
-  </p>
-
-  <button onclick="playMusic()">
+  <button onclick="startSequence()">
     Turn On Bat Signal 🎵
   </button>
 
-  <div id="message">
-    🎉 Happy Birthday Akshay! 🎉<br><br>
-    May your life be fearless,<br>
-    powerful, and unstoppable 🦇✨
-  </div>
+  <!-- 🌕 Bat Signal -->
+  <div id="signal">🦇</div>
+
+  <!-- 💻 Terminal -->
+  <div id="terminal" class="flicker"></div>
 
 </div>
 
 <script>
-function playMusic() {
+const text = `🦇 GOTHAM PRIVATE TRANSMISSION
+
+🔐 Access Granted…
+To: Akshay
+From: Someone who loves you more than Gotham needs its hero ❤️
+
+----------------------------------------
+
+🕶️ Message from the Shadows
+"In a city full of chaos…
+I found my calm in you."
+
+You may not be Batman…
+But to me, you are my hero. 🖤
+
+----------------------------------------
+
+🎂 Mission Update
+🎉 Happy Birthday, My Love 🎉
+
+Another year added…
+But somehow you just keep getting more special.
+
+----------------------------------------
+
+🧬 System Upgrade
+❤️ Love for you: Infinite
+🧠 Memories together: Increasing daily
+🫶 My heart: Permanently assigned to you
+
+----------------------------------------
+
+⚠️ Confidential Note
+"I don’t need a signal in the sky…
+Because I already found my Batman." 🦇💖
+
+🔒 End Transmission`;
+
+let i = 0;
+
+function startSequence() {
   document.getElementById("music").play();
-  document.getElementById("message").style.display = "block";
+
+  let signal = document.getElementById("signal");
+  let terminal = document.getElementById("terminal");
+
+  signal.style.display = "block";
+
+  setTimeout(() => {
+    signal.style.display = "none";
+    terminal.style.display = "block";
+    typeWriter();
+  }, 2000);
+}
+
+function typeWriter() {
+  if (i < text.length) {
+    document.getElementById("terminal").innerHTML += text.charAt(i);
+    i++;
+    setTimeout(typeWriter, 25);
+  }
 }
 </script>
 
