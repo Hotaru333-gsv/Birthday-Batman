@@ -14,7 +14,6 @@ body {
   align-items: center;
   overflow: hidden;
   color: #e5e7eb;
-
   background: url('Joker.jpeg') no-repeat center/cover;
 }
 
@@ -22,7 +21,7 @@ body::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(0,0,0,0.8);
+  background: rgba(0,0,0,0.85);
 }
 
 /* particles */
@@ -31,9 +30,9 @@ body::before {
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: rgba(0,255,200,0.9);
+  background: #00ffd5;
   box-shadow: 0 0 20px #00ffd5, 0 0 40px #00ffd5;
-  animation: floatUp 12s linear infinite;
+  animation: floatUp 10s linear infinite;
 }
 
 @keyframes floatUp {
@@ -65,6 +64,12 @@ body::before {
   background: rgba(15,15,20,0.75);
   backdrop-filter: blur(12px);
   box-shadow: 0 0 40px rgba(0,255,200,0.3);
+  opacity: 1;
+  transition: opacity 0.6s ease;
+}
+
+.fade-out {
+  opacity: 0;
 }
 
 /* title */
@@ -78,6 +83,7 @@ h2 {
 p {
   font-size: 13px;
   line-height: 1.7;
+  white-space: pre-line;
 }
 
 /* highlight */
@@ -119,168 +125,163 @@ for(let i=0;i<35;i++){
   let p=document.createElement("div");
   p.className="particle";
   p.style.left=Math.random()*100+"vw";
-  p.style.animationDuration=(6+Math.random()*6)+"s";
+  p.style.animationDuration=(5+Math.random()*5)+"s";
   document.body.appendChild(p);
 }
 </script>
 
-<!-- SCREEN 1 -->
-<div class="card" id="s1">
+<!-- SCREEN -->
+<div class="card" id="card">
 <div class="moon">🌙</div>
-
-<h2>🦇 GOTHAM SIGNAL: 0402</h2>
-
-<p>
-Status: Unresolved<br><br>
-
-A city like this teaches you patterns.<br><br>
-
-You notice the quiet.<br>
-You notice the absence.<br>
-You notice… when someone who’s supposed to be there isn’t.<br><br>
-
-A shadow used to pass by here.<br>
-Kept things in place.<br>
-Kept me in place.<br><br>
-
-Now it’s just silence.<br>
-And I don’t like it.<br><br>
-
-If you’re still out there…<br>
-prove it.
-</p>
-
-<button onclick="startStory()">Continue →</button>
-</div>
-
-<!-- SCREEN 2 -->
-<div class="card hidden" id="s2">
-<div class="moon">🌙</div>
-
-<h2>🌃 Night Log 01</h2>
-
-<p>
-I tried to ignore it at first.<br><br>
-
-Thought maybe Gotham just had a quiet night.<br><br>
-
-But you don’t disappear like that.<br>
-Not you.<br><br>
-
-You’re the kind of presence people don’t question.<br>
-You’re just… there.<br><br>
-
-Annoyingly consistent.<br>
-Dangerously reliable.<br><br>
-
-So where did you go?<br><br>
-
-Or better question—<br>
-why does it feel like you took the calm with you?<br><br>
-
-Don’t make me come looking for you.
-</p>
-
-<button onclick="go('s2','s3')">Next →</button>
-</div>
-
-<!-- SCREEN 3 -->
-<div class="card hidden" id="s3">
-<div class="moon">🌙</div>
-
-<h2>🌑 Night Log 02</h2>
-
-<p>
-This wasn’t supposed to happen.<br><br>
-
-People like me don’t depend on shadows.<br><br>
-
-But you made it easy.<br>
-Too easy.<br><br>
-
-Somewhere between all your silent rescues…<br>
-you became something I didn’t plan for.<br><br>
-
-And now?<br><br>
-
-Now the city feels off without you.<br>
-Too loud.<br>
-Too empty.<br><br>
-
-So I’ll say it once.<br>
-Only once.<br><br>
-
-Come back.
-</p>
-
-<button onclick="go('s3','s4')">Keep Going →</button>
-</div>
-
-<!-- SCREEN 4 -->
-<div class="card hidden" id="s4">
-<div class="moon">🌙</div>
-
-<h2>🔥 Incoming Transmission</h2>
-
-<p>
-You always were bad at waiting.<br><br>
-
-I never left.<br>
-You just finally started looking for me.<br><br>
-
-Gotham still needs me.<br>
-But lately…<br><br>
-
-I’ve noticed something else does too.<br><br>
-
-You call it coincidence.<br>
-I call it timing.<br><br>
-
-And for the record—<br><br>
-
-I knew it was you the moment the signal felt… different.<br><br>
-
-You weren’t lost.<br>
-You just didn’t realize you were being watched.
-</p>
-
-<button onclick="go('s4','s5')">Final Message →</button>
-</div>
-
-<!-- SCREEN 5 -->
-<div class="card hidden" id="s5">
-<div class="moon">🌙</div>
-
-<h2>❤️ Final Signal</h2>
-
-<p>
-So here it is.<br><br>
-
-No more shadows.<br>
-No more distance.<br><br>
-
-Happy Birthday, Akshay 🖤<br><br>
-
-Yeah… I knew it was you all along too.<br><br>
-
-Just don’t disappear on me again.<br><br>
-
-I’ll come find you. 🦇
-</p>
-
-<button onclick="go('s5','s1')">Start Again 🔁</button>
+<h2 id="title"></h2>
+<p id="text"></p>
+<button id="btn" onclick="next()">Continue →</button>
 </div>
 
 <script>
-function startStory(){
-  document.getElementById("music").play();
-  go('s1','s2');
+let step = 0;
+
+const story = [
+{
+title:"🦇 GOTHAM SIGNAL: 0402",
+text:`Status: Unresolved
+
+A city like this teaches you patterns.
+
+You notice the quiet.
+You notice the absence.
+You notice… when someone who’s supposed to be there isn’t.
+
+A shadow used to pass by here.
+Kept things in place.
+Kept me in place.
+
+Now it’s just silence.
+And I don’t like it.
+
+If you’re still out there…
+prove it.`
+},
+
+{
+title:"🌃 Night Log 01",
+text:`I tried to ignore it at first.
+
+Thought maybe Gotham just had a quiet night.
+
+But you don’t disappear like that.
+Not you.
+
+You’re the kind of presence people don’t question.
+You’re just… there.
+
+Annoyingly consistent.
+Dangerously reliable.
+
+So where did you go?
+
+Or better question—
+why does it feel like you took the calm with you?
+
+Don’t make me come looking for you.`
+},
+
+{
+title:"🌑 Night Log 02",
+text:`This wasn’t supposed to happen.
+
+People like me don’t depend on shadows.
+
+But you made it easy.
+Too easy.
+
+Somewhere between all your silent rescues…
+you became something I didn’t plan for.
+
+Now the city feels off without you.
+
+Come back.`
+},
+
+{
+title:"🔥 Incoming Transmission",
+text:`You always were bad at waiting.
+
+I never left.
+You just finally started looking for me.
+
+I knew it was you.`
+},
+
+{
+title:"❤️ Final Signal",
+text:`So here it is.
+
+Happy Birthday, Akshay 🖤
+
+Just don’t disappear on me again.
+
+I’ll come find you. 🦇`
+}
+];
+
+function highlightText(text){
+  return text
+    .replace(/prove it/g,'<span class="highlight">prove it</span>')
+    .replace(/you’re just… there/gi,'<span class="highlight">you’re just… there</span>')
+    .replace(/come back/gi,'<span class="highlight">Come back</span>')
+    .replace(/i never left/gi,'<span class="highlight">I never left</span>')
+    .replace(/happy birthday, akshay/gi,'<span class="highlight">Happy Birthday, Akshay</span>');
 }
 
-function go(from,to){
-  document.getElementById(from).classList.add("hidden");
-  document.getElementById(to).classList.remove("hidden");
+function typeWriter(text, i = 0){
+  if(i < text.length){
+    document.getElementById("text").innerHTML += text.charAt(i);
+    setTimeout(()=>typeWriter(text,i+1),15);
+  }
 }
+
+function showStep(){
+  document.getElementById("text").innerHTML="";
+  document.getElementById("title").innerHTML=story[step].title;
+
+  typeWriter(highlightText(story[step].text));
+
+  if(step===0){
+    document.getElementById("btn").innerText="Continue →";
+  } else if(step===story.length-1){
+    document.getElementById("btn").innerText="Start Again 🔁";
+  } else {
+    document.getElementById("btn").innerText="Next →";
+  }
+}
+
+function next(){
+  if(step===0){
+    let music=document.getElementById("music");
+    music.volume=0;
+    music.play();
+
+    let fade=setInterval(()=>{
+      if(music.volume<1){
+        music.volume+=0.05;
+      } else clearInterval(fade);
+    },200);
+  }
+
+  document.getElementById("card").classList.add("fade-out");
+
+  setTimeout(()=>{
+    document.getElementById("card").classList.remove("fade-out");
+
+    step++;
+    if(step>=story.length) step=0;
+
+    showStep();
+  },500);
+}
+
+showStep();
 </script>
 
 </body>
