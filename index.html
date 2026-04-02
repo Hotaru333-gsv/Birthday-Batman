@@ -69,20 +69,6 @@ body::before {
   transition:opacity 0.6s;
 }
 
-/* glitch */
-.glitch {
-  animation: glitch 0.3s infinite;
-}
-
-@keyframes glitch {
-  0%{transform:translate(0);}
-  20%{transform:translate(-2px,2px);}
-  40%{transform:translate(2px,-2px);}
-  60%{transform:translate(-2px,0);}
-  80%{transform:translate(2px,2px);}
-  100%{transform:translate(0);}
-}
-
 h2 {
   color:#00ffd5;
   text-align:center;
@@ -92,14 +78,13 @@ h2 {
 p {
   font-size:15px;
   line-height:1.8;
-  letter-spacing:0.5px;
   white-space:pre-line;
 }
 
 /* highlights */
-.yellow{color:#ffd166;font-weight:bold;text-shadow:0 0 8px #ffd166;}
-.cyan{color:#00ffd5;font-weight:bold;text-shadow:0 0 8px #00ffd5;}
-.pink{color:#ff4d6d;font-weight:bold;text-shadow:0 0 8px #ff4d6d;}
+.yellow{color:#ffd166;font-weight:bold;}
+.cyan{color:#00ffd5;font-weight:bold;}
+.pink{color:#ff4d6d;font-weight:bold;}
 
 /* button */
 button{
@@ -114,31 +99,14 @@ button{
   cursor:pointer;
   box-shadow:0 0 15px #00ffd5;
 }
-
-/* cursor */
-.cursor {
-  display:inline-block;
-  width:8px;
-  background:#00ffd5;
-  animation:blink 1s infinite;
-}
-
-@keyframes blink {
-  50%{opacity:0;}
-}
 </style>
 </head>
 
 <body>
 
-<!-- music -->
+<!-- 🎵 MUSIC (UNCHANGED) -->
 <audio id="music" loop>
   <source src="Jupiter.mp4" type="audio/mp4">
-</audio>
-
-<!-- typing sound -->
-<audio id="typeSound">
-  <source src="https://www.soundjay.com/mechanical/keyboard-1.mp3">
 </audio>
 
 <script>
@@ -155,7 +123,7 @@ for(let i=0;i<35;i++){
 <div class="moon">🌙</div>
 <h2 id="title"></h2>
 <p id="text"></p>
-<button onclick="next()" id="btn">Continue →</button>
+<button onclick="next()" id="btn"></button>
 </div>
 
 <script>
@@ -273,40 +241,52 @@ I’ll come find you. 🦇`
 }
 ];
 
-function highlight(text){
-  return text
-  .replace(/quiet/g,'<span class="yellow">quiet</span>')
-  .replace(/absence/g,'<span class="yellow">absence</span>')
-  .replace(/isn’t/g,'<span class="pink">isn’t</span>')
-  .replace(/Kept things in place/g,'<span class="cyan">Kept things in place</span>')
-  .replace(/Come back/g,'<span class="pink">Come back</span>')
-  .replace(/I never left/g,'<span class="cyan">I never left</span>')
-  .replace(/Happy Birthday, Akshay/g,'<span class="yellow">Happy Birthday, Akshay</span>');
+function highlight(text, step){
+  if(step===0){
+    return text
+      .replace("quiet","<span class='yellow'>quiet</span>")
+      .replace("absence","<span class='yellow'>absence</span>")
+      .replace("isn’t","<span class='pink'>isn’t</span>")
+      .replace("Kept things in place","<span class='cyan'>Kept things in place</span>")
+      .replace("Kept me in place","<span class='cyan'>Kept me in place</span>")
+      .replace("prove it","<span class='yellow'>prove it</span>");
+  }
+
+  if(step===1){
+    return text
+      .replace("Not you","<span class='yellow'>Not you</span>")
+      .replace("You’re just… there","<span class='cyan'>You’re just… there</span>")
+      .replace("Dangerously reliable","<span class='cyan'>Dangerously reliable</span>");
+  }
+
+  if(step===2){
+    return text
+      .replace("Too easy","<span class='yellow'>Too easy</span>")
+      .replace("Come back","<span class='pink'>Come back</span>");
+  }
+
+  if(step===3){
+    return text
+      .replace("I never left","<span class='cyan'>I never left</span>")
+      .replace("I knew it was you","<span class='pink'>I knew it was you</span>");
+  }
+
+  if(step===4){
+    return text
+      .replace("Happy Birthday, Akshay","<span class='yellow'>Happy Birthday, Akshay</span>")
+      .replace("someone became me","<span class='cyan'>someone became me</span>")
+      .replace("I’ll come find you","<span class='pink'>I’ll come find you</span>");
+  }
+
+  return text;
 }
 
-/* typing */
+/* simple typing */
 function typeHTML(html, el){
-  let i=0, tag="", writingTag=false;
-
+  let i=0;
   function type(){
     if(i<html.length){
-      let char=html[i];
-
-      if(char=="<") writingTag=true;
-
-      if(writingTag){
-        tag+=char;
-      } else {
-        el.innerHTML+=char;
-        document.getElementById("typeSound").play();
-      }
-
-      if(char==">"){
-        writingTag=false;
-        el.innerHTML+=tag;
-        tag="";
-      }
-
+      el.innerHTML+=html.charAt(i);
       i++;
       setTimeout(type,12);
     }
@@ -318,36 +298,29 @@ function show(){
   document.getElementById("text").innerHTML="";
   document.getElementById("title").innerText=story[step].title;
 
-  typeHTML(highlight(story[step].text),document.getElementById("text"));
+  typeHTML(highlight(story[step].text, step),document.getElementById("text"));
 
-  if(step===story.length-1){
-    document.getElementById("btn").innerText="Start Again 🔁";
-  } else {
-    document.getElementById("btn").innerText="Next →";
-  }
+  // 🔘 DIFFERENT BUTTON TEXTS
+  const btnTexts = [
+    "Continue →",
+    "Tell Me More →",
+    "I’m Listening… →",
+    "Reveal It →",
+    "Start Again 🔁"
+  ];
+
+  document.getElementById("btn").innerText = btnTexts[step];
 }
 
 function next(){
   if(step===0){
-    let music=document.getElementById("music");
-    music.volume=0;
-    music.play();
-
-    let fade=setInterval(()=>{
-      if(music.volume<1){
-        music.volume+=0.05;
-      } else clearInterval(fade);
-    },200);
+    document.getElementById("music").play(); // no effects added
   }
 
-  document.getElementById("card").classList.add("glitch");
+  step++;
+  if(step>=story.length) step=0;
 
-  setTimeout(()=>{
-    document.getElementById("card").classList.remove("glitch");
-    step++;
-    if(step>=story.length) step=0;
-    show();
-  },300);
+  show();
 }
 
 show();
