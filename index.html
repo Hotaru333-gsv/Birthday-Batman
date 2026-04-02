@@ -15,8 +15,8 @@ body {
   align-items: center;
   color: white;
 
-  /* 🌆 OUTSIDE background */
-  background: url('https://share.google/2DoCXQoGbksgHg3ch') no-repeat center/cover;
+  /* 🌆 OUTSIDE BACKGROUND */
+  background: url('gotham.jpg') no-repeat center/cover;
 }
 
 /* Dark overlay */
@@ -29,7 +29,7 @@ body::before {
   z-index: 0;
 }
 
-/* 🟡 Card with INNER background */
+/* 🟡 Card */
 .card {
   position: relative;
   z-index: 2;
@@ -38,16 +38,16 @@ body::before {
   text-align: center;
   width: 360px;
 
-  /* 🖼️ INSIDE background */
-  background: url('https://share.google/cdGri5Wgaug82bu3a') no-repeat center/cover;
+  /* 🖼️ INSIDE BACKGROUND */
+  background: url('batman.jpg') no-repeat center/cover;
 
   /* Glow */
   box-shadow: 0 0 20px #ffdd00,
               0 0 40px #ffdd00,
-              0 0 60px rgba(255,221,0,0.5);
+              0 0 60px rgba(255,221,0,0.6);
 }
 
-/* Overlay inside card for readability */
+/* Inner dark overlay */
 .card::before {
   content: "";
   position: absolute;
@@ -63,9 +63,14 @@ h1 {
   text-shadow: 0 0 10px #ffdd00;
 }
 
+/* Text */
+p {
+  color: #ddd;
+}
+
 /* Button */
 button {
-  margin-top: 20px;
+  margin-top: 15px;
   padding: 12px 20px;
   border-radius: 25px;
   border: none;
@@ -76,11 +81,9 @@ button {
   box-shadow: 0 0 15px #ffdd00;
 }
 
-/* Message box */
+/* Message */
 #message {
   margin-top: 20px;
-  font-size: 16px;
-  color: #fff;
   display: none;
   animation: fadeIn 1s ease;
 }
@@ -94,9 +97,9 @@ button {
 
 <body>
 
-<!-- 🎵 Music -->
-<audio id="music" loop>
-  <source src="https://www2.cs.uic.edu/~i101/SoundFiles/HappyBirthday.mid" type="audio/midi">
+<!-- 🎵 REAL WORKING MUSIC -->
+<audio id="music">
+  <source src="happy-birthday.mp3" type="audio/mpeg">
 </audio>
 
 <div class="card">
@@ -108,23 +111,22 @@ button {
     a legend watches the city 🦇
   </p>
 
-  <button onclick="showMessage()">
+  <button onclick="playMusic()">
     Turn On Bat Signal 🎵
   </button>
 
-  <!-- 💬 Hidden message -->
   <div id="message">
     🎉 Happy Birthday Akshay! 🎉<br><br>
-    May your life be as powerful as Batman,<br>
-    as fearless as the night,<br>
-    and as bright as the Bat Signal 🦇✨
+    May your life be fearless,<br>
+    powerful, and unstoppable 🦇✨
   </div>
 
 </div>
 
 <script>
-function showMessage() {
-  document.getElementById("music").play();
+function playMusic() {
+  let music = document.getElementById("music");
+  music.play();
   document.getElementById("message").style.display = "block";
 }
 </script>
