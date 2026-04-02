@@ -25,6 +25,34 @@ body::before {
   background: rgba(0,0,0,0.75);
 }
 
+/* 🌟 glowing particles */
+.particle {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #00ffd5;
+  box-shadow: 0 0 20px #00ffd5, 0 0 40px #00ffd5;
+  animation: float 8s linear infinite;
+}
+
+@keyframes float {
+  from { transform: translateY(100vh); }
+  to { transform: translateY(-10vh); }
+}
+
+/* 🌙 moon */
+.moon {
+  font-size: 35px;
+  text-align: center;
+  animation: floatMoon 3s ease-in-out infinite alternate;
+}
+
+@keyframes floatMoon {
+  from { transform: translateY(0); }
+  to { transform: translateY(-8px); }
+}
+
 /* card */
 .card {
   position: relative;
@@ -34,13 +62,14 @@ body::before {
   border-radius: 20px;
   background: rgba(15,15,20,0.8);
   backdrop-filter: blur(10px);
-  box-shadow: 0 0 40px rgba(0,255,200,0.2);
+  box-shadow: 0 0 40px rgba(0,255,200,0.3);
 }
 
-/* title */
+/* headings */
 h2 {
   color: #00ffd5;
   text-align: center;
+  text-shadow: 0 0 10px #00ffd5;
 }
 
 /* text */
@@ -49,7 +78,13 @@ p {
   line-height: 1.6;
 }
 
-/* button */
+/* ✨ highlight */
+.highlight {
+  color: #ffd166;
+  font-weight: bold;
+}
+
+/* buttons */
 button {
   margin-top: 15px;
   padding: 10px;
@@ -60,6 +95,7 @@ button {
   color: black;
   font-weight: bold;
   cursor: pointer;
+  box-shadow: 0 0 20px #00ffd5;
 }
 
 /* hidden */
@@ -71,35 +107,48 @@ button {
 
 <body>
 
+<!-- particles -->
+<script>
+for(let i=0;i<35;i++){
+  let p=document.createElement("div");
+  p.className="particle";
+  p.style.left=Math.random()*100+"vw";
+  p.style.animationDuration=(5+Math.random()*5)+"s";
+  document.body.appendChild(p);
+}
+</script>
+
 <!-- SCREEN 1 -->
 <div class="card" id="s1">
+<div class="moon">🌙</div>
 <h2>🦇 GOTHAM SIGNAL: 0402</h2>
 
 <p>
-Status: Unresolved<br><br>
+<span class="highlight">Status: Unresolved</span><br><br>
 
 A city like this teaches you patterns.<br><br>
 
-You notice the quiet.<br>
-You notice the absence.<br>
-You notice… when someone who’s supposed to be there isn’t.<br><br>
+You notice the <span class="highlight">quiet</span>.<br>
+You notice the <span class="highlight">absence</span>.<br>
+You notice… when someone who’s supposed to be there <span class="highlight">isn’t</span>.<br><br>
 
 A shadow used to pass by here.<br>
-Kept things in place.<br>
-Kept me in place.<br><br>
+<span class="highlight">Kept things in place.</span><br>
+<span class="highlight">Kept me in place.</span><br><br>
 
-Now it’s just silence.<br>
+Now it’s just <span class="highlight">silence</span>.<br>
 And I don’t like it.<br><br>
 
 If you’re still out there…<br>
-prove it.
+<span class="highlight">prove it.</span>
 </p>
 
-<button onclick="go('s1','s2')">→ /logs/night_01.md</button>
+<button onclick="go('s1','s2')">→ Open /logs/night_01.md</button>
 </div>
 
 <!-- SCREEN 2 -->
 <div class="card hidden" id="s2">
+<div class="moon">🌙</div>
 <h2>🌃 Night Log 01</h2>
 
 <p>
@@ -108,27 +157,28 @@ I tried to ignore it at first.<br><br>
 Thought maybe Gotham just had a quiet night.<br><br>
 
 But you don’t disappear like that.<br>
-Not you.<br><br>
+<span class="highlight">Not you.</span><br><br>
 
 You’re the kind of presence people don’t question.<br>
-You’re just… there.<br><br>
+You’re just… <span class="highlight">there</span>.<br><br>
 
-Annoyingly consistent.<br>
-Dangerously reliable.<br><br>
+<span class="highlight">Annoyingly consistent.</span><br>
+<span class="highlight">Dangerously reliable.</span><br><br>
 
 So where did you go?<br><br>
 
 Or better question—<br>
-why does it feel like you took the calm with you?<br><br>
+why does it feel like you took the <span class="highlight">calm</span> with you?<br><br>
 
 Don’t make me come looking for you.
 </p>
 
-<button onclick="go('s2','s3')">→ /logs/night_02.md</button>
+<button onclick="go('s2','s3')">→ Open /logs/night_02.md</button>
 </div>
 
 <!-- SCREEN 3 -->
 <div class="card hidden" id="s3">
+<div class="moon">🌙</div>
 <h2>🌑 Night Log 02</h2>
 
 <p>
@@ -136,95 +186,76 @@ This wasn’t supposed to happen.<br><br>
 
 People like me don’t depend on shadows.<br><br>
 
-But you made it easy.<br>
-Too easy.<br><br>
+But you made it <span class="highlight">easy</span>.<br>
+<span class="highlight">Too easy.</span><br><br>
 
 Somewhere between all your silent rescues…<br>
 you became something I didn’t plan for.<br><br>
 
-And now?<br><br>
-
-Now the city feels off without you.<br>
-Too loud.<br>
-Too empty.<br><br>
+Now the city feels <span class="highlight">off</span> without you.<br>
+<span class="highlight">Too loud.</span><br>
+<span class="highlight">Too empty.</span><br><br>
 
 So I’ll say it once.<br>
-Only once.<br><br>
-
-Come back.
+<span class="highlight">Come back.</span>
 </p>
 
-<button onclick="go('s3','s4')">→ /response.log</button>
+<button onclick="go('s3','s4')">→ Execute /response.log</button>
 </div>
 
 <!-- SCREEN 4 -->
 <div class="card hidden" id="s4">
+<div class="moon">🌙</div>
 <h2>🔥 Incoming Transmission</h2>
 
 <p>
-You always were bad at waiting.<br><br>
+<span class="highlight">You always were bad at waiting.</span><br><br>
 
 I never left.<br>
-You just finally started looking for me.<br><br>
+You just finally started looking.<br><br>
 
 Gotham still needs me.<br>
-But lately…<br><br>
-
-I’ve noticed something else does too.<br><br>
+But lately… something else does too.<br><br>
 
 You call it coincidence.<br>
-I call it timing.<br><br>
+<span class="highlight">I call it timing.</span><br><br>
 
-And for the record—<br><br>
-
-I knew it was you the moment the signal felt… different.<br><br>
+I knew it was you the moment the signal felt different.<br><br>
 
 You weren’t lost.<br>
-You just didn’t realize you were being watched.
+<span class="highlight">You were being watched.</span>
 </p>
 
-<button onclick="go('s4','s5')">→ /final_signal.md</button>
+<button onclick="go('s4','s5')">→ Open /final_signal.md</button>
 </div>
 
 <!-- SCREEN 5 -->
 <div class="card hidden" id="s5">
+<div class="moon">🌙</div>
 <h2>❤️ Final Signal</h2>
 
 <p>
 So here it is.<br><br>
 
-No more shadows.<br>
-No more distance.<br><br>
+<span class="highlight">Happy Birthday, Akshay 🖤</span><br><br>
 
-<b>Happy Birthday, Akshay 🖤</b><br><br>
-
-Yeah… I knew it was you all along too.<br><br>
-
-You act like you’re the one watching over everything.<br>
+You act like the dark knight.<br>
 Calm. Collected. Unbothered.<br><br>
 
-Very “dark knight” of you.<br><br>
+But even you…<br>
+<span class="highlight">let someone in.</span><br><br>
 
-But here’s the truth you don’t say out loud—<br><br>
+And somehow… that someone became me.<br><br>
 
-even you let someone in.<br><br>
-
-And somehow…<br>
-that someone became me.<br><br>
-
-So keep the city.<br>
-Keep the shadows.<br>
+So keep the shadows.<br>
 Keep the mystery.<br><br>
 
-Just don’t disappear on me again.<br><br>
+Just don’t disappear again.<br><br>
 
-Because next time…<br>
-I won’t just send signals.<br><br>
-
-<b>I’ll come find you. 🦇</b>
+<span class="highlight">Next time… I’ll come find you. 🦇</span>
 </p>
 
-<button onclick="go('s5','s1')">Restart</button>
+<button onclick="go('s5','s1')">↻ Restart System</button>
 </div>
 
 <script>
