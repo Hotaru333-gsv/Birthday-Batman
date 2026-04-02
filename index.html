@@ -1,26 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Happy Birthday 🦇</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<title>Happy Birthday 🦇</title>
+
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  overflow: hidden;
+  font-family: Arial;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+
+  /* Gotham background */
+  background: url('https://images.unsplash.com/photo-1508057198894-247b23fe5ade') no-repeat center/cover;
+}
+
+/* Dark overlay */
+body::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.7);
+  z-index: 0;
+}
+
+/* Card */
+.card {
+  position: relative;
+  z-index: 2;
+  background: rgba(20,20,20,0.85);
+  padding: 40px;
+  border-radius: 20px;
+  text-align: center;
+  width: 340px;
+  box-shadow: 0 0 40px rgba(255,221,0,0.4);
+}
+
+.logo {
+  font-size: 50px;
+  color: #ffdd00;
+}
+
+h1 {
+  color: #ffdd00;
+}
+
+/* Buttons */
+button {
+  margin: 10px;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.yes {
+  background: #ffdd00;
+  color: black;
+}
+
+.no {
+  background: transparent;
+  border: 1px solid gray;
+  color: gray;
+  position: absolute;
+}
+
+/* Flying bats */
+.bat {
+  position: absolute;
+  font-size: 20px;
+  animation: fly 10s linear infinite;
+}
+
+@keyframes fly {
+  0% { transform: translateX(-100px) translateY(0); }
+  100% { transform: translateX(120vw) translateY(-200px); }
+}
+</style>
 </head>
+
 <body>
 
+<!-- 🎵 Background Music -->
+<audio autoplay loop>
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+</audio>
+
+<!-- 🦇 Flying bats -->
+<div class="bat" style="top:10%">🦇</div>
+<div class="bat" style="top:30%; animation-duration:12s;">🦇</div>
+<div class="bat" style="top:60%; animation-duration:8s;">🦇</div>
+
+<!-- 🎂 Card -->
 <div class="card">
   <div class="logo">🦇</div>
-  <h1>Happy Birthday!</h1>
+
+  <h1>Happy Birthday Gifty 🖤</h1>
+
   <p>
-    In the shadows of Gotham,<br>
-    a hero was born today 🖤<br><br>
-    Stay strong, fearless,<br>
-    and always rise again.
+    In Gotham’s shadows,<br>
+    a legend was born today 🦇<br><br>
+    Stay fearless. Stay strong.<br>
+    You are the hero of your story.
   </p>
 
-  <button onclick="alert('You are the hero of your story 🦇')">
-    Enter the Night
+  <button class="yes" onclick="alert('You are Batman 😎')">
+    Yes I am 🦇
+  </button>
+
+  <button class="no" id="noBtn">
+    No 😔
   </button>
 </div>
+
+<script>
+const noBtn = document.getElementById("noBtn");
+
+noBtn.addEventListener("mouseover", () => {
+  noBtn.style.top = Math.random() * 300 + "px";
+  noBtn.style.left = Math.random() * 300 + "px";
+});
+</script>
 
 </body>
 </html>
