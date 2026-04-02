@@ -2,20 +2,19 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Classified 🦇</title>
+<title>Mystery 🦇</title>
 
 <style>
 body {
   margin: 0;
   height: 100vh;
   overflow: hidden;
-  font-family: 'Courier New', monospace;
+  font-family: 'Segoe UI', sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #e6e6e6;
 
-  /* 🦇 Batman background */
+  /* 🦇 Background */
   background: url('Batsman.jpeg') no-repeat center/cover;
 }
 
@@ -24,58 +23,85 @@ body::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(0,0,0,0.7);
+  background: radial-gradient(circle at center, rgba(0,0,0,0.5), #020617);
 }
 
-/* Floating particles */
+/* 🌟 Glowing particles */
 .particle {
   position: absolute;
-  width: 5px;
-  height: 5px;
-  background: rgba(255,255,255,0.4);
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
-  animation: float 12s linear infinite;
+  background: rgba(0,255,200,0.9);
+  box-shadow: 0 0 15px #00ffd5, 0 0 30px #00ffd5;
+  animation: floatUp 10s linear infinite;
 }
 
-@keyframes float {
+@keyframes floatUp {
   from { transform: translateY(100vh); }
   to { transform: translateY(-10vh); }
 }
 
-/* Card */
+/* 📱 Mobile card */
 .card {
   position: relative;
   z-index: 2;
-  width: 380px;
+  width: 320px;
   padding: 30px;
-  border-radius: 20px;
+  border-radius: 25px;
 
-  background: rgba(20,20,20,0.65);
-  backdrop-filter: blur(10px);
+  background: rgba(15,15,20,0.7);
+  backdrop-filter: blur(15px);
 
-  box-shadow: 0 0 30px rgba(0,0,0,0.8);
-  text-align: left;
-}
-
-/* Titles */
-h1 {
-  color: #ffdd00;
   text-align: center;
+  color: white;
+
+  box-shadow: 0 0 40px rgba(0,255,200,0.3);
 }
 
+/* Moon */
+.moon {
+  font-size: 45px;
+  animation: floatMoon 3s ease-in-out infinite alternate;
+}
+
+@keyframes floatMoon {
+  from { transform: translateY(0); }
+  to { transform: translateY(-8px); }
+}
+
+/* Title */
+h1 {
+  color: #00ffd5;
+  margin: 10px 0;
+}
+
+/* Text */
+p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #cbd5f5;
+}
+
+/* Highlight */
+.highlight {
+  color: #ffd166;
+}
+
+/* Button */
 button {
-  display: block;
-  margin: 20px auto 0;
-  padding: 10px 20px;
-  border-radius: 20px;
+  margin-top: 20px;
+  padding: 12px 25px;
+  border-radius: 25px;
   border: none;
-  background: #ffdd00;
+  background: #00ffd5;
   color: black;
   font-weight: bold;
   cursor: pointer;
+  box-shadow: 0 0 20px #00ffd5;
 }
 
-/* Hide screens */
+/* Hidden */
 .hidden {
   display: none;
 }
@@ -84,9 +110,9 @@ button {
 
 <body>
 
-<!-- Particles -->
+<!-- 🌟 Particles -->
 <script>
-for(let i=0;i<20;i++){
+for(let i=0;i<30;i++){
   let p=document.createElement("div");
   p.className="particle";
   p.style.left=Math.random()*100+"vw";
@@ -98,32 +124,37 @@ for(let i=0;i<20;i++){
 <!-- SCREEN 1 -->
 <div class="card" id="screen1">
 
-  <h1>🦇 CLASSIFIED FILE</h1>
+  <div class="moon">🌙</div>
+
+  <h1>Private Repo Confession</h1>
 
   <p>
+  🕶️ <b>CLASSIFIED FILE</b><br><br>
+
   Subject: Akshay<br>
   Status: Under Observation<br><br>
 
   Gotham has found its hero…<br>
   But tonight, the city whispers something more.<br><br>
 
+  <span class="highlight">
   "Sometimes it's not who we are underneath,<br>
-  but what we do that defines us."<br><br>
+  but what we do that defines us."
+  </span><br><br>
 
   And what you do… makes my world better every day.<br><br>
 
-  <b>Happy Birthday, Detective. 🦇</b><br>
-  — Someone watching from the shadows
+  <b>Happy Birthday, Detective. 🦇</b>
   </p>
 
-  <button onclick="nextScreen()">Open Final File</button>
+  <button onclick="nextScreen()">Open Case File</button>
 
 </div>
 
 <!-- SCREEN 2 -->
 <div class="card hidden" id="screen2">
 
-  <h1>🖤 FINAL REVEAL</h1>
+  <h1>Mystery Solved 🖤</h1>
 
   <p>
   You kept looking for clues…<br><br>
@@ -131,9 +162,11 @@ for(let i=0;i<20;i++){
   But the truth is—<br>
   this was never a mystery.<br><br>
 
-  It was always you.<br><br>
+  <span class="highlight">
+  It was always you.
+  </span><br><br>
 
-  <b>Happy Birthday, Akshay. 🖤</b>
+  Happy Birthday, Akshay. 🖤
   </p>
 
   <button onclick="restart()">Back</button>
