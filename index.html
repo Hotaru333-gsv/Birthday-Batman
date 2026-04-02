@@ -4,11 +4,13 @@
 <meta charset="UTF-8">
 <title>Gotham Logs 🦇</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&display=swap" rel="stylesheet">
+
 <style>
 body {
   margin: 0;
   height: 100vh;
-  font-family: monospace;
+  font-family: 'Orbitron', monospace;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -18,106 +20,125 @@ body {
 }
 
 body::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,0.85);
+  content:"";
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,0.85);
 }
 
 /* particles */
 .particle {
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: #00ffd5;
-  box-shadow: 0 0 20px #00ffd5, 0 0 40px #00ffd5;
-  animation: floatUp 10s linear infinite;
+  position:absolute;
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:#00ffd5;
+  box-shadow:0 0 20px #00ffd5,0 0 40px #00ffd5;
+  animation:floatUp 10s linear infinite;
 }
 
 @keyframes floatUp {
-  from { transform: translateY(100vh); opacity: 0; }
-  20% { opacity: 1; }
-  to { transform: translateY(-10vh); opacity: 0; }
+  from{transform:translateY(100vh);opacity:0;}
+  20%{opacity:1;}
+  to{transform:translateY(-10vh);opacity:0;}
 }
 
 /* moon */
 .moon {
-  font-size: 35px;
-  text-align: center;
-  margin-bottom: 10px;
-  animation: floatMoon 3s ease-in-out infinite alternate;
+  font-size:35px;
+  text-align:center;
+  margin-bottom:10px;
+  animation:floatMoon 3s ease-in-out infinite alternate;
 }
 
 @keyframes floatMoon {
-  from { transform: translateY(0); }
-  to { transform: translateY(-8px); }
+  from{transform:translateY(0);}
+  to{transform:translateY(-8px);}
 }
 
 /* card */
 .card {
-  position: relative;
-  z-index: 2;
-  width: 340px;
-  padding: 25px;
-  border-radius: 20px;
-  background: rgba(15,15,20,0.75);
-  backdrop-filter: blur(12px);
-  box-shadow: 0 0 40px rgba(0,255,200,0.3);
-  opacity: 1;
-  transition: opacity 0.6s ease;
+  position:relative;
+  z-index:2;
+  width:360px;
+  padding:25px;
+  border-radius:20px;
+  background:rgba(15,15,20,0.75);
+  backdrop-filter:blur(12px);
+  box-shadow:0 0 50px rgba(0,255,200,0.4);
+  transition:opacity 0.6s;
 }
 
-.fade-out {
-  opacity: 0;
+/* glitch */
+.glitch {
+  animation: glitch 0.3s infinite;
 }
 
-/* title */
+@keyframes glitch {
+  0%{transform:translate(0);}
+  20%{transform:translate(-2px,2px);}
+  40%{transform:translate(2px,-2px);}
+  60%{transform:translate(-2px,0);}
+  80%{transform:translate(2px,2px);}
+  100%{transform:translate(0);}
+}
+
 h2 {
-  color: #00ffd5;
-  text-align: center;
-  text-shadow: 0 0 10px #00ffd5;
+  color:#00ffd5;
+  text-align:center;
+  text-shadow:0 0 12px #00ffd5;
 }
 
-/* text */
 p {
-  font-size: 13px;
-  line-height: 1.7;
-  white-space: pre-line;
+  font-size:15px;
+  line-height:1.8;
+  letter-spacing:0.5px;
+  white-space:pre-line;
 }
 
-/* highlight */
-.highlight {
-  color: #ffd166;
-  font-weight: bold;
-}
+/* highlights */
+.yellow{color:#ffd166;font-weight:bold;text-shadow:0 0 8px #ffd166;}
+.cyan{color:#00ffd5;font-weight:bold;text-shadow:0 0 8px #00ffd5;}
+.pink{color:#ff4d6d;font-weight:bold;text-shadow:0 0 8px #ff4d6d;}
 
 /* button */
-button {
-  margin-top: 15px;
-  padding: 10px;
-  width: 100%;
-  border-radius: 10px;
-  border: none;
-  background: #00ffd5;
-  color: black;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0 0 15px #00ffd5;
+button{
+  margin-top:15px;
+  padding:10px;
+  width:100%;
+  border-radius:10px;
+  border:none;
+  background:#00ffd5;
+  color:black;
+  font-weight:bold;
+  cursor:pointer;
+  box-shadow:0 0 15px #00ffd5;
 }
 
-/* hidden */
-.hidden {
-  display: none;
+/* cursor */
+.cursor {
+  display:inline-block;
+  width:8px;
+  background:#00ffd5;
+  animation:blink 1s infinite;
+}
+
+@keyframes blink {
+  50%{opacity:0;}
 }
 </style>
 </head>
 
 <body>
 
-<!-- 🎵 MUSIC -->
+<!-- music -->
 <audio id="music" loop>
   <source src="Jupiter.mp4" type="audio/mp4">
+</audio>
+
+<!-- typing sound -->
+<audio id="typeSound">
+  <source src="https://www.soundjay.com/mechanical/keyboard-1.mp3">
 </audio>
 
 <script>
@@ -130,18 +151,17 @@ for(let i=0;i<35;i++){
 }
 </script>
 
-<!-- SCREEN -->
 <div class="card" id="card">
 <div class="moon">🌙</div>
 <h2 id="title"></h2>
 <p id="text"></p>
-<button id="btn" onclick="next()">Continue →</button>
+<button onclick="next()" id="btn">Continue →</button>
 </div>
 
 <script>
-let step = 0;
+let step=0;
 
-const story = [
+const story=[
 {
 title:"🦇 GOTHAM SIGNAL: 0402",
 text:`Status: Unresolved
@@ -162,7 +182,6 @@ And I don’t like it.
 If you’re still out there…
 prove it.`
 },
-
 {
 title:"🌃 Night Log 01",
 text:`I tried to ignore it at first.
@@ -185,7 +204,6 @@ why does it feel like you took the calm with you?
 
 Don’t make me come looking for you.`
 },
-
 {
 title:"🌑 Night Log 02",
 text:`This wasn’t supposed to happen.
@@ -198,11 +216,17 @@ Too easy.
 Somewhere between all your silent rescues…
 you became something I didn’t plan for.
 
+And now?
+
 Now the city feels off without you.
+Too loud.
+Too empty.
+
+So I’ll say it once.
+Only once.
 
 Come back.`
 },
-
 {
 title:"🔥 Incoming Transmission",
 text:`You always were bad at waiting.
@@ -210,46 +234,93 @@ text:`You always were bad at waiting.
 I never left.
 You just finally started looking for me.
 
-I knew it was you.`
-},
+Gotham still needs me.
+But lately…
 
+I’ve noticed something else does too.
+
+You call it coincidence.
+I call it timing.
+
+And for the record—
+
+I knew it was you the moment the signal felt… different.
+
+You weren’t lost.
+You just didn’t realize you were being watched.`
+},
 {
 title:"❤️ Final Signal",
 text:`So here it is.
 
+No more shadows.
+No more distance.
+
 Happy Birthday, Akshay 🖤
 
-Just don’t disappear on me again.
+Yeah… I knew it was you all along too.
+
+You act like you’re the one watching over everything.
+
+But here’s the truth—
+
+even you let someone in.
+
+And somehow…
+that someone became me.
 
 I’ll come find you. 🦇`
 }
 ];
 
-function highlightText(text){
+function highlight(text){
   return text
-    .replace(/prove it/g,'<span class="highlight">prove it</span>')
-    .replace(/you’re just… there/gi,'<span class="highlight">you’re just… there</span>')
-    .replace(/come back/gi,'<span class="highlight">Come back</span>')
-    .replace(/i never left/gi,'<span class="highlight">I never left</span>')
-    .replace(/happy birthday, akshay/gi,'<span class="highlight">Happy Birthday, Akshay</span>');
+  .replace(/quiet/g,'<span class="yellow">quiet</span>')
+  .replace(/absence/g,'<span class="yellow">absence</span>')
+  .replace(/isn’t/g,'<span class="pink">isn’t</span>')
+  .replace(/Kept things in place/g,'<span class="cyan">Kept things in place</span>')
+  .replace(/Come back/g,'<span class="pink">Come back</span>')
+  .replace(/I never left/g,'<span class="cyan">I never left</span>')
+  .replace(/Happy Birthday, Akshay/g,'<span class="yellow">Happy Birthday, Akshay</span>');
 }
 
-function typeWriter(text, i = 0){
-  if(i < text.length){
-    document.getElementById("text").innerHTML += text.charAt(i);
-    setTimeout(()=>typeWriter(text,i+1),15);
+/* typing */
+function typeHTML(html, el){
+  let i=0, tag="", writingTag=false;
+
+  function type(){
+    if(i<html.length){
+      let char=html[i];
+
+      if(char=="<") writingTag=true;
+
+      if(writingTag){
+        tag+=char;
+      } else {
+        el.innerHTML+=char;
+        document.getElementById("typeSound").play();
+      }
+
+      if(char==">"){
+        writingTag=false;
+        el.innerHTML+=tag;
+        tag="";
+      }
+
+      i++;
+      setTimeout(type,12);
+    }
   }
+  type();
 }
 
-function showStep(){
+function show(){
   document.getElementById("text").innerHTML="";
-  document.getElementById("title").innerHTML=story[step].title;
+  document.getElementById("title").innerText=story[step].title;
 
-  typeWriter(highlightText(story[step].text));
+  typeHTML(highlight(story[step].text),document.getElementById("text"));
 
-  if(step===0){
-    document.getElementById("btn").innerText="Continue →";
-  } else if(step===story.length-1){
+  if(step===story.length-1){
     document.getElementById("btn").innerText="Start Again 🔁";
   } else {
     document.getElementById("btn").innerText="Next →";
@@ -269,19 +340,17 @@ function next(){
     },200);
   }
 
-  document.getElementById("card").classList.add("fade-out");
+  document.getElementById("card").classList.add("glitch");
 
   setTimeout(()=>{
-    document.getElementById("card").classList.remove("fade-out");
-
+    document.getElementById("card").classList.remove("glitch");
     step++;
     if(step>=story.length) step=0;
-
-    showStep();
-  },500);
+    show();
+  },300);
 }
 
-showStep();
+show();
 </script>
 
 </body>
