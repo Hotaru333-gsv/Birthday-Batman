@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Batman Message 🦇</title>
+<title>Batman Cinematic 🦇</title>
 
 <style>
 body {
@@ -13,36 +13,36 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  color: white;
 
-  /* 🎭 Joker Background */
   background: url('Joker.jpeg') no-repeat center/cover;
 }
 
-/* Overlay */
+/* overlay */
 body::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle, rgba(0,0,0,0.6), #020617);
+  background: rgba(0,0,0,0.7);
 }
 
-/* Glowing particles */
+/* particles */
 .particle {
   position: absolute;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
+  width: 6px;
+  height: 6px;
   background: #00ffd5;
-  box-shadow: 0 0 20px #00ffd5;
-  animation: floatUp 10s linear infinite;
+  border-radius: 50%;
+  box-shadow: 0 0 15px #00ffd5;
+  animation: float 10s linear infinite;
 }
 
-@keyframes floatUp {
+@keyframes float {
   from { transform: translateY(100vh); }
   to { transform: translateY(-10vh); }
 }
 
-/* Card */
+/* card */
 .card {
   position: relative;
   z-index: 2;
@@ -51,35 +51,30 @@ body::before {
   border-radius: 25px;
   text-align: center;
 
-  background: rgba(15,15,20,0.7);
+  background: rgba(15,15,20,0.75);
   backdrop-filter: blur(15px);
 
   box-shadow: 0 0 40px rgba(0,255,200,0.3);
-  color: white;
+  opacity: 1;
+  transition: opacity 0.6s ease;
 }
 
-/* Floating icons */
+.fade-out {
+  opacity: 0;
+}
+
+/* floating */
 .float {
   font-size: 40px;
-  animation: floatIcon 3s ease-in-out infinite alternate;
+  animation: floatY 3s ease-in-out infinite alternate;
 }
 
-@keyframes floatIcon {
+@keyframes floatY {
   from { transform: translateY(0); }
-  to { transform: translateY(-8px); }
+  to { transform: translateY(-10px); }
 }
 
-/* Title */
-h1 {
-  color: #00ffd5;
-}
-
-/* Highlight */
-.highlight {
-  color: #ffd166;
-}
-
-/* Button */
+/* button */
 button {
   margin-top: 20px;
   padding: 12px 25px;
@@ -92,129 +87,153 @@ button {
   box-shadow: 0 0 20px #00ffd5;
 }
 
-/* Input */
-input {
-  margin-top: 15px;
-  padding: 10px;
-  border-radius: 10px;
-  border: none;
-  width: 80%;
-  text-align: center;
-}
-
-/* Hidden */
+/* hidden */
 .hidden {
   display: none;
+}
+
+/* typing */
+#typing {
+  white-space: pre-line;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* bat signal */
+#signal {
+  position: absolute;
+  top: 20%;
+  font-size: 80px;
+  display: none;
+  animation: glow 1s infinite alternate;
+}
+
+@keyframes glow {
+  from { text-shadow: 0 0 10px #fff; }
+  to { text-shadow: 0 0 40px #ffdd00; }
 }
 </style>
 </head>
 
 <body>
 
-<!-- particles -->
+<audio id="music">
+  <source src="happy-birthday.mp3" type="audio/mpeg">
+</audio>
+
+<div id="signal">🦇</div>
+
 <script>
-for(let i=0;i<30;i++){
+for(let i=0;i<25;i++){
   let p=document.createElement("div");
   p.className="particle";
   p.style.left=Math.random()*100+"vw";
-  p.style.animationDuration=(6+Math.random()*6)+"s";
+  p.style.animationDuration=(5+Math.random()*5)+"s";
   document.body.appendChild(p);
 }
 </script>
 
 <!-- SCREEN 1 -->
 <div class="card" id="screen1">
-
   <div class="float">🌙</div>
+  <h2>Message from the Shadows</h2>
 
-  <h1>Message from the Shadows</h1>
+  <div id="typing"></div>
 
-  <p>
-  🕶️ <b>CLASSIFIED FILE</b><br><br>
-
-  Subject: Akshay<br>
-  Status: Under Observation<br><br>
-
-  Gotham has found its hero…<br>
-  But tonight, the city whispers something more.<br><br>
-
-  <span class="highlight">
-  "Sometimes it's not who we are underneath,<br>
-  but what we do that defines us."
-  </span><br><br>
-
-  And what you do… makes my world better every day.<br><br>
-
-  <b>Happy Birthday, Detective. 🦇</b>
-  </p>
-
-  <button onclick="nextScreen()">Continue</button>
-
+  <button onclick="start()">Continue</button>
 </div>
 
 <!-- SCREEN 2 -->
 <div class="card hidden" id="screen2">
-
   <div class="float">💜</div>
-
-  <h1>Mystery Solved</h1>
+  <h2>Mystery Solved</h2>
 
   <p>
   You kept looking for clues…<br><br>
-
   But the truth is—<br>
   this was never a mystery.<br><br>
-
-  <span class="highlight">It was always you.</span><br><br>
-
+  <b>It was always you.</b><br><br>
   Happy Birthday, Akshay 🖤
   </p>
 
-  <button onclick="goRiddle()">Final Challenge</button>
-
+  <button onclick="showRiddle()">Final Challenge</button>
 </div>
 
-<!-- SCREEN 3 (RIDDLE) -->
+<!-- SCREEN 3 -->
 <div class="card hidden" id="screen3">
-
-  <h1>🦇 Final Riddle</h1>
+  <h2>🦇 Final Riddle</h2>
 
   <p>
-  I appear when the city is in danger,<br>
-  shining high in the sky.<br><br>
-
-  I call the hero of Gotham—<br>
-  who am I?
+  I appear in the sky when danger is near,<br>
+  calling a hero Gotham holds dear.<br><br>
+  Who am I?
   </p>
 
-  <input type="text" id="answer" placeholder="Type your answer...">
-
-  <button onclick="checkAnswer()">Submit</button>
+  <input id="answer" placeholder="Type answer...">
+  <button onclick="check()">Submit</button>
 
   <p id="result"></p>
-
 </div>
 
 <script>
-function nextScreen(){
-  document.getElementById("screen1").classList.add("hidden");
-  document.getElementById("screen2").classList.remove("hidden");
+const text = `🕶️ CLASSIFIED FILE
+
+Subject: Akshay
+Status: Under Observation
+
+Gotham has found its hero…
+But tonight, the city whispers something more.
+
+"Sometimes it's not who we are underneath,
+but what we do that defines us."
+
+And what you do… makes my world better every day.
+
+Happy Birthday, Detective. 🦇`;
+
+let i=0;
+
+function typeWriter(){
+  if(i < text.length){
+    document.getElementById("typing").innerHTML += text.charAt(i);
+    i++;
+    setTimeout(typeWriter,20);
+  }
 }
 
-function goRiddle(){
-  document.getElementById("screen2").classList.add("hidden");
-  document.getElementById("screen3").classList.remove("hidden");
+typeWriter();
+
+function start(){
+  document.getElementById("music").play();
+
+  document.getElementById("signal").style.display="block";
+
+  setTimeout(()=>{
+    document.getElementById("signal").style.display="none";
+    switchScreen("screen1","screen2");
+  },2000);
 }
 
-function checkAnswer(){
-  let ans = document.getElementById("answer").value.toLowerCase();
+function showRiddle(){
+  switchScreen("screen2","screen3");
+}
 
-  if(ans.includes("bat signal") || ans.includes("signal")){
+function switchScreen(hide,show){
+  document.getElementById(hide).classList.add("fade-out");
+  setTimeout(()=>{
+    document.getElementById(hide).classList.add("hidden");
+    document.getElementById(show).classList.remove("hidden");
+  },500);
+}
+
+function check(){
+  let ans=document.getElementById("answer").value.toLowerCase();
+  if(ans.includes("signal")){
     document.getElementById("result").innerHTML =
-    "🎉 Correct! Happy Birthday Akshay 🦇💖";
+    "🎉 Correct! Happy Birthday Senpai 🦇💖";
   } else {
     document.getElementById("result").innerHTML =
-    "❌ Not quite… try again!";
+    "❌ Try again...";
   }
 }
 </script>
