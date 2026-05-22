@@ -2,11 +2,19 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>🍥 Naruto Birthday Arc 🍥</title>
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
 
 <style>
+
+:root{
+  --orange:#ff6b00;
+  --yellow:#ffd166;
+  --dark:#050505;
+  --soft:#bdbdbd;
+}
 
 *{
   margin:0;
@@ -15,34 +23,284 @@
 }
 
 body{
-  height:100vh;
-  overflow:hidden;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-family:monospace;
   background:black;
   color:white;
+  font-family:'Poppins',sans-serif;
+  overflow-x:hidden;
 }
 
 /* BACKGROUND */
+
 body::before{
   content:"";
-  position:absolute;
+  position:fixed;
   inset:0;
+
   background:
-  linear-gradient(rgba(0,0,0,.72), rgba(0,0,0,.88)),
+  radial-gradient(circle at center,
+  rgba(255,120,0,.12),
+  transparent 60%),
+  linear-gradient(rgba(0,0,0,.8),
+  rgba(0,0,0,.92)),
   url('naruto.jpg') center/cover no-repeat;
+
   z-index:-3;
 }
 
-/* FALLING LEAVES */
-.leaf{
+/* STARS */
+
+.star{
+  position:fixed;
+  width:2px;
+  height:2px;
+  background:white;
+  border-radius:50%;
+  animation:twinkle 3s infinite;
+  opacity:.6;
+}
+
+@keyframes twinkle{
+  0%,100%{
+    opacity:.2;
+  }
+
+  50%{
+    opacity:1;
+  }
+}
+
+/* HERO */
+
+.hero{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  text-align:center;
+  padding:40px 20px;
+  position:relative;
+}
+
+.jp{
+  letter-spacing:10px;
+  color:rgba(255,255,255,.4);
+  margin-bottom:20px;
+  font-size:14px;
+}
+
+.title{
+  font-family:'Cinzel',serif;
+  font-size:clamp(50px,9vw,120px);
+  line-height:1;
+  font-weight:900;
+  color:var(--orange);
+
+  text-shadow:
+  0 0 20px rgba(255,100,0,.5),
+  0 0 50px rgba(255,100,0,.3);
+
+  animation:glow 3s infinite alternate;
+}
+
+@keyframes glow{
+  from{
+    text-shadow:
+    0 0 20px rgba(255,100,0,.4),
+    0 0 40px rgba(255,100,0,.2);
+  }
+
+  to{
+    text-shadow:
+    0 0 30px rgba(255,100,0,.8),
+    0 0 70px rgba(255,100,0,.4);
+  }
+}
+
+.subtitle{
+  margin-top:20px;
+  color:rgba(255,255,255,.5);
+  letter-spacing:5px;
+  font-size:13px;
+}
+
+.scroll{
+  margin-top:60px;
+  color:rgba(255,255,255,.35);
+  font-size:12px;
+  letter-spacing:5px;
+  animation:float 2s infinite;
+}
+
+@keyframes float{
+  0%,100%{
+    transform:translateY(0);
+  }
+
+  50%{
+    transform:translateY(8px);
+  }
+}
+
+/* SECTION */
+
+.section{
+  max-width:1000px;
+  margin:auto;
+  padding:120px 20px;
+}
+
+.chapter{
+  color:rgba(255,120,0,.45);
+  letter-spacing:7px;
+  font-size:12px;
+  margin-bottom:20px;
+  text-transform:uppercase;
+}
+
+.quote{
+  font-family:'Cinzel',serif;
+  font-size:clamp(28px,5vw,54px);
+  line-height:1.3;
+  margin-bottom:40px;
+}
+
+.orange{
+  color:var(--orange);
+}
+
+.text{
+  color:rgba(255,255,255,.7);
+  line-height:2;
+  font-size:17px;
+  max-width:700px;
+}
+
+/* CARDS */
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:25px;
+  margin-top:70px;
+}
+
+.card{
+  padding:30px;
+  border:1px solid rgba(255,120,0,.15);
+
+  background:
+  linear-gradient(
+  rgba(255,120,0,.04),
+  rgba(255,120,0,.01));
+
+  backdrop-filter:blur(12px);
+
+  transition:.4s;
+  position:relative;
+  overflow:hidden;
+}
+
+.card::before{
+  content:"";
   position:absolute;
+  inset:0;
+
+  background:
+  linear-gradient(
+  45deg,
+  transparent,
+  rgba(255,120,0,.08),
+  transparent);
+
+  transform:translateX(-100%);
+  transition:.6s;
+}
+
+.card:hover::before{
+  transform:translateX(100%);
+}
+
+.card:hover{
+  transform:translateY(-10px);
+
+  border-color:rgba(255,120,0,.45);
+
+  box-shadow:
+  0 0 30px rgba(255,120,0,.15);
+}
+
+.icon{
+  font-size:32px;
+  margin-bottom:15px;
+}
+
+.card h3{
+  font-family:'Cinzel',serif;
+  margin-bottom:12px;
+  color:var(--orange);
+  font-size:18px;
+}
+
+.card p{
+  color:rgba(255,255,255,.55);
+  line-height:1.8;
+  font-size:14px;
+}
+
+/* FINAL */
+
+.final{
+  text-align:center;
+  padding:160px 20px;
+  position:relative;
+}
+
+.final h2{
+  font-family:'Cinzel',serif;
+  font-size:clamp(45px,8vw,90px);
+  color:var(--orange);
+
+  text-shadow:
+  0 0 30px rgba(255,100,0,.5);
+}
+
+.final p{
+  margin-top:25px;
+  letter-spacing:7px;
+  color:rgba(255,255,255,.4);
+  font-size:13px;
+}
+
+.japanese{
+  margin-top:70px;
+  color:var(--yellow);
+  font-size:45px;
+
+  text-shadow:
+  0 0 25px rgba(255,215,0,.4);
+
+  animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+  0%,100%{
+    opacity:.6;
+  }
+
+  50%{
+    opacity:1;
+  }
+}
+
+/* LEAVES */
+
+.leaf{
+  position:fixed;
   top:-10vh;
-  font-size:24px;
+  font-size:22px;
+  opacity:.75;
   animation:fall linear infinite;
-  opacity:.85;
 }
 
 @keyframes fall{
@@ -59,164 +317,32 @@ body::before{
   }
 }
 
-/* CARD */
-.card{
-  position:relative;
-  width:430px;
-  max-width:92%;
-  padding:32px;
-  border-radius:28px;
-
-  background:rgba(255,255,255,.08);
-
-  backdrop-filter:blur(18px);
-
-  border:1px solid rgba(255,255,255,.15);
-
-  overflow:hidden;
-
-  box-shadow:
-  0 0 30px rgba(255,170,0,.18);
-
-  animation:floatCard 3s ease-in-out infinite alternate;
-
-  z-index:2;
-}
-
-/* MOVING CHAKRA BORDER */
-.card::before{
-  content:"";
-  position:absolute;
-  inset:-2px;
-
-  border-radius:28px;
-
-  padding:2px;
-
-  background:
-  linear-gradient(
-    45deg,
-    #ff7b00,
-    #ffd000,
-    #ff4500,
-    #ffb300
-  );
-
-  background-size:300% 300%;
-
-  animation:chakraBorder 6s linear infinite;
-
-  -webkit-mask:
-  linear-gradient(#fff 0 0) content-box,
-  linear-gradient(#fff 0 0);
-
-  -webkit-mask-composite:xor;
-
-  mask-composite:exclude;
-}
-
-@keyframes chakraBorder{
-  0%{
-    background-position:0% 50%;
-  }
-
-  50%{
-    background-position:100% 50%;
-  }
-
-  100%{
-    background-position:0% 50%;
-  }
-}
-
-@keyframes floatCard{
-  from{
-    transform:translateY(0);
-  }
-
-  to{
-    transform:translateY(-10px);
-  }
-}
-
-.logo{
-  text-align:center;
-  font-size:52px;
-  margin-bottom:10px;
-}
-
-h1{
-  text-align:center;
-  color:#ffcc66;
-  margin-bottom:20px;
-  font-size:25px;
-}
-
-p{
-  line-height:1.95;
-  color:#f3f4f6;
-  font-size:15px;
-}
-
-.highlight{
-  color:#ffd166;
-  font-weight:bold;
-}
-
-.code{
-  margin-top:15px;
-  background:rgba(0,0,0,.65);
-  border-radius:14px;
-  padding:15px;
-  color:#00ff9d;
-  line-height:1.8;
-  font-size:14px;
-}
-
-button{
-  width:100%;
-  margin-top:25px;
-  padding:14px;
-
-  border:none;
-  border-radius:14px;
-
-  background:
-  linear-gradient(
-    45deg,
-    #ff7b00,
-    #ffb300
-  );
-
-  color:black;
-  font-weight:bold;
-  font-size:15px;
-
-  cursor:pointer;
-
-  transition:.35s;
-
-  box-shadow:
-  0 0 20px rgba(255,170,0,.4);
-}
-
-button:hover{
-  transform:scale(1.05);
-
-  box-shadow:
-  0 0 35px rgba(255,170,0,.8);
-}
-
-.hidden{
-  display:none;
-}
-
 </style>
 </head>
 
 <body>
 
-<!-- FALLING LEAVES -->
+<!-- STARS -->
+<script>
+
+for(let i=0;i<100;i++){
+
+  let s=document.createElement("div");
+
+  s.className="star";
+
+  s.style.left=Math.random()*100+"vw";
+  s.style.top=Math.random()*100+"vh";
+
+  s.style.animationDuration=
+  (2+Math.random()*4)+"s";
+
+  document.body.appendChild(s);
+}
+
+</script>
+
+<!-- LEAVES -->
 <script>
 
 for(let i=0;i<25;i++){
@@ -237,209 +363,151 @@ for(let i=0;i<25;i++){
 
 </script>
 
-<!-- SCREEN 1 -->
-<div class="card" id="s1">
+<!-- HERO -->
 
-<div class="logo">🍥</div>
+<section class="hero">
 
-<h1>Hidden Leaf Transmission</h1>
+<div class="jp">
+木ノ葉隠れの里
+</div>
 
-<p>
+<h1 class="title">
+HAPPY<br>BIRTHDAY
+</h1>
 
-<span class="highlight">
-Mission Status: Active
-</span><br><br>
-
-Some people enter your life quietly...<br>
-but somehow become unforgettable.<br><br>
-
-Like a shinobi appearing during your hardest arc.<br><br>
-
-Not because they try too hard.<br>
-Not because they seek attention.<br><br>
-
-But because their presence alone changes everything.<br><br>
-
-And honestly?<br>
-That kind of bond is rare.<br><br>
-
-<span class="highlight">
-Today isn't just another day.<br>
-This is your Birthday Arc,
-Draksmer Augustin ⚡
-</span>
-
+<p class="subtitle">
+TO DRAKSMER AUGUSTIN ⚡
 </p>
 
-<button onclick="go('s1','s2')">
-→ Continue
-</button>
-
+<div class="scroll">
+SCROLL ↓
 </div>
 
-<!-- SCREEN 2 -->
-<div class="card hidden" id="s2">
+</section>
 
-<div class="logo">🔥</div>
+<!-- MESSAGE -->
 
-<h1>Shinobi Analysis</h1>
+<section class="section">
 
-<p>
-
-🍜 Ramen Energy:
-<span class="highlight">100%</span><br>
-
-⚡ Chakra Levels:
-<span class="highlight">Beyond Limit</span><br>
-
-🏆 Ninja Rank:
-<span class="highlight">S-Class Shinobi</span><br>
-
-🌀 Friendship Power:
-<span class="highlight">Legendary</span><br><br>
-
-Every shinobi faces battles.<br>
-Some visible.<br>
-Some silent.<br><br>
-
-But through every difficult arc...<br>
-you kept moving forward.<br><br>
-
-<span class="highlight">
-That's true strength.
-</span>
-
+<p class="chapter">
+CHAPTER 01 — SHINOBI REPORT
 </p>
 
-<button onclick="go('s2','s3')">
-→ Next Mission
-</button>
+<h2 class="quote">
 
-</div>
+"Some shinobi are strong.<br>
+Others are just
+<span class="orange">
+dangerously chaotic.
+</span> 💀"
 
-<!-- SCREEN 3 -->
-<div class="card hidden" id="s3">
+</h2>
 
-<div class="logo">🌀</div>
+<p class="text">
 
-<h1>Birthday No Jutsu</h1>
-
-<div class="code">
-
-> loading chakra...<br>
-> activating shadow clones...<br>
-> deploying happiness.exe...<br>
-> legendary birthday arc unlocked 🍥
-
-</div>
-
-<p style="margin-top:20px;">
-
-Mission Objectives:<br><br>
-
-✅ Eat cake 🍰<br>
-✅ Make unforgettable memories 📸<br>
-✅ Stay unstoppable 🔥<br>
-✅ Continue chasing dreams ⚡<br><br>
-
-<span class="highlight">
-People who never give up...<br>
-become legends someday.
-</span>
-
-</p>
-
-<button onclick="go('s3','s4')">
-→ Final Message
-</button>
-
-</div>
-
-<!-- SCREEN 4 -->
-<div class="card hidden" id="s4">
-
-<div class="logo">🎂</div>
-
-<h1>Classified Shinobi File</h1>
-
-<p>
-
-━━━━━━━━━━━━━━━━━━━<br>
-🍥 Hidden Leaf Archives 🍥<br>
-━━━━━━━━━━━━━━━━━━━<br><br>
+🍥 Ninja Archive #0720 🍥<br><br>
 
 Name:
-<span class="highlight">
+<span class="orange">
 Draksmer Augustin ⚡
-</span><br>
+</span><br><br>
+
+Threat Level:
+<span class="orange">
+Unnecessarily Powerful
+</span><br><br>
+
+Known Abilities:<br><br>
+
+🔥 Main character energy<br>
+🍜 Unlimited appetite<br>
+⚡ Survives every life arc somehow<br>
+💀 Makes bad decisions confidently<br><br>
+
+Current Mission:<br>
+Celebrate birthday.<br>
+Avoid becoming rogue ninja.<br><br>
 
 Status:
-<span class="highlight">
-Legendary Shinobi
-</span><br><br>
-
-After surviving battles...<br>
-chaotic arcs...<br>
-and silent struggles...<br><br>
-
-one thing became clear.<br><br>
-
-<span class="highlight">
-You were never meant to stay ordinary.
-</span><br><br>
-
-You’re the kind of soul people remember.<br>
-The kind of presence that becomes comfort during difficult times.<br><br>
-
-And honestly?<br>
-That’s rarer than any kekkei genkai.<br><br>
-
-May your future be filled with:<br><br>
-
-🔥 Hokage-level success<br>
-🍜 Endless happiness<br>
-⚡ Loyal friendships<br>
-🌅 Peaceful moments<br>
-✨ Dreams that never fade<br><br>
-
-No matter how difficult life gets...<br>
-keep moving forward.<br><br>
-
-<span class="highlight">
-Because the people who never give up...<br>
-become the light others follow.
-</span><br><br>
-
-🍥 HAPPY BIRTHDAY DRAKSMER AUGUSTIN 🍥<br><br>
-
-<span class="highlight">
-DATTEBAYO!!! 🔥
+<span class="orange">
+Legendary Shinobi 🍥
 </span>
 
 </p>
 
-<button onclick="go('s4','s1')">
-↻ Restart Arc
-</button>
+<div class="grid">
+
+<div class="card">
+
+<div class="icon">🍜</div>
+
+<h3>Ramen Master</h3>
+
+<p>
+Consumes food at Naruto-level speed.
+Financially concerning.
+</p>
 
 </div>
 
-<script>
+<div class="card">
 
-function go(from,to){
+<div class="icon">⚡</div>
 
-  document
-  .getElementById(from)
-  .classList
-  .add("hidden");
+<h3>Plot Armor</h3>
 
-  document
-  .getElementById(to)
-  .classList
-  .remove("hidden");
-}
+<p>
+Somehow survives every disaster life throws at him.
+</p>
 
-</script>
+</div>
+
+<div class="card">
+
+<div class="icon">💀</div>
+
+<h3>Chaos Energy</h3>
+
+<p>
+Makes terrible decisions look cinematic.
+</p>
+
+</div>
+
+<div class="card">
+
+<div class="icon">🔥</div>
+
+<h3>Future Hokage</h3>
+
+<p>
+Loud enough to lead the entire Hidden Leaf.
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- FINAL -->
+
+<section class="final">
+
+<h2>
+HAPPY BIRTHDAY,<br>
+BELIEVE IT!
+</h2>
+
+<p>
+FROM YOUR SHINOBI COMPANION, WITH ALL THE WILL OF FIRE
+</p>
+
+<div class="japanese">
+だってばよ！
+</div>
+
+</section>
 
 </body>
 </html>
