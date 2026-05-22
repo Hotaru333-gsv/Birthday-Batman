@@ -3,952 +3,1224 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Happy Birthday — Believe It!</title>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Noto+Sans+JP:wght@300;400;700;900&display=swap" rel="stylesheet">
+<title>Happy Birthday, Draksmer Augustin</title>
 <style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Noto+Serif+JP:wght@300;400;700&family=Orbitron:wght@400;700;900&family=Kalam:wght@300;400;700&display=swap');
+
   :root {
     --orange: #FF6B00;
-    --orange2: #FF8C00;
-    --yellow: #FFD700;
-    --red: #CC2200;
-    --dark: #0a0a0a;
-    --darker: #050505;
-    --ink: #1a0a00;
-    --white: #fff8f0;
-    --chakra: #4FC3F7;
-    --chakra2: #00BCD4;
-    --spiral: #FF6B00;
+    --deep-orange: #CC4400;
+    --gold: #FFD700;
+    --red: #CC0000;
+    --dark: #0A0A0F;
+    --darker: #050508;
+    --blue-chakra: #00BFFF;
+    --purple-chakra: #9B30FF;
+    --white: #F5F0E8;
+    --ink: #1a1a2e;
+    --paper: #F2E8D5;
+    --paper-dark: #D4C4A0;
   }
 
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
 
   html { scroll-behavior: smooth; }
 
   body {
     background: var(--darker);
     color: var(--white);
-    font-family: 'Noto Sans JP', sans-serif;
+    font-family: 'Noto Serif JP', serif;
     overflow-x: hidden;
-    cursor: default;
+    cursor: crosshair;
   }
 
-  /* ── CUSTOM CURSOR ── */
-  .cursor {
-    width: 18px; height: 18px;
+  /* ===== CUSTOM CURSOR ===== */
+  .cursor-fx {
+    position: fixed;
+    width: 20px; height: 20px;
     border: 2px solid var(--orange);
     border-radius: 50%;
-    position: fixed; pointer-events: none;
-    transform: translate(-50%,-50%);
-    transition: transform .15s ease, background .2s;
+    pointer-events: none;
     z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: width 0.2s, height 0.2s, border-color 0.2s;
     mix-blend-mode: screen;
   }
 
-  /* ── LOADING SCREEN ── */
-  #loader {
-    position: fixed; inset: 0;
-    background: var(--darker);
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    z-index: 9000;
-    transition: opacity .8s ease;
-  }
-  #loader.hide { opacity: 0; pointer-events: none; }
-
-  .loader-spiral {
-    width: 80px; height: 80px;
-    border: 3px solid transparent;
-    border-top: 3px solid var(--orange);
-    border-right: 3px solid var(--yellow);
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-  }
-  .loader-text {
-    font-family: 'Cinzel Decorative', serif;
-    color: var(--orange);
-    font-size: 12px;
-    letter-spacing: 6px;
-    margin-top: 20px;
-    animation: pulse 1.5s ease-in-out infinite;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  @keyframes pulse { 0%,100%{opacity:.3} 50%{opacity:1} }
-
-  /* ── MAIN HERO ── */
-  #hero {
-    position: relative;
-    min-height: 100vh;
-    display: flex; align-items: center; justify-content: center;
-    flex-direction: column;
-    overflow: hidden;
-    padding: 40px 20px;
-  }
-
-  /* Sky gradient */
-  .sky-bg {
-    position: absolute; inset: 0;
-    background: radial-gradient(ellipse at 50% 30%, #1a0800 0%, #0a0400 45%, #000 100%);
+  /* ===== CANVAS BACKGROUND ===== */
+  #chakra-canvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
     z-index: 0;
+    opacity: 0.4;
   }
 
-  /* Rising sun */
-  .rising-sun {
+  /* ===== SCROLL CONTAINER ===== */
+  .scroll-wrapper {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ===== CHAPTER DIVIDER ===== */
+  .chapter-mark {
+    text-align: center;
+    font-family: 'Cinzel Decorative', cursive;
+    font-size: 0.7rem;
+    letter-spacing: 0.4em;
+    color: var(--orange);
+    opacity: 0.6;
+    padding: 1rem 0;
+    text-transform: uppercase;
+  }
+
+  /* ===== SECTION STYLES ===== */
+  section {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 4rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* ===== PANEL: INTRO CINEMATIC ===== */
+  #intro {
+    background: var(--darker);
+    position: relative;
+  }
+  #intro::before {
+    content: '';
     position: absolute;
-    bottom: 30%;
+    inset: 0;
+    background: radial-gradient(ellipse at center, rgba(255,107,0,0.15) 0%, transparent 70%);
+  }
+
+  .leaf-symbol {
+    font-size: 6rem;
+    color: var(--orange);
+    animation: pulse-glow 2s ease-in-out infinite;
+    text-shadow: 0 0 40px var(--orange), 0 0 80px var(--deep-orange);
+    display: block;
+    margin-bottom: 1rem;
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% { text-shadow: 0 0 40px var(--orange), 0 0 80px var(--deep-orange); transform: scale(1); }
+    50% { text-shadow: 0 0 60px var(--gold), 0 0 120px var(--orange); transform: scale(1.05); }
+  }
+
+  .intro-title {
+    font-family: 'Cinzel Decorative', cursive;
+    font-size: clamp(1.2rem, 4vw, 2.5rem);
+    color: var(--gold);
+    text-align: center;
+    letter-spacing: 0.15em;
+    line-height: 1.4;
+    text-shadow: 0 0 20px rgba(255,215,0,0.5);
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fade-up 1.2s ease forwards 0.5s;
+  }
+
+  .intro-sub {
+    font-size: clamp(0.8rem, 2vw, 1rem);
+    color: var(--paper-dark);
+    letter-spacing: 0.3em;
+    margin-top: 1rem;
+    text-transform: uppercase;
+    opacity: 0;
+    animation: fade-up 1.2s ease forwards 1.2s;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 2rem;
     left: 50%;
     transform: translateX(-50%);
-    width: 220px; height: 220px;
-    z-index: 1;
-    animation: sunRise 3s ease-out forwards;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
     opacity: 0;
+    animation: fade-up 1s ease forwards 2s;
   }
-  @keyframes sunRise {
-    0% { transform: translateX(-50%) translateY(60px); opacity: 0; }
-    100% { transform: translateX(-50%) translateY(0); opacity: 1; }
-  }
-  .rising-sun svg { width: 100%; height: 100%; }
-
-  /* Stars */
-  .stars { position: absolute; inset: 0; z-index: 1; }
-  .star {
-    position: absolute;
-    background: white;
-    border-radius: 50%;
-    animation: twinkle var(--dur, 3s) ease-in-out infinite var(--delay, 0s);
-  }
-  @keyframes twinkle { 0%,100%{opacity:.1} 50%{opacity:1} }
-
-  /* Floating kunai */
-  .kunai-container { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
-  .kunai {
-    position: absolute;
-    font-size: 20px;
-    opacity: 0;
-    animation: kunaiFloat var(--fdur, 6s) ease-in-out infinite var(--fdelay, 0s);
-  }
-  @keyframes kunaiFloat {
-    0% { opacity: 0; transform: translateY(20px) rotate(0deg); }
-    20% { opacity: .7; }
-    80% { opacity: .7; }
-    100% { opacity: 0; transform: translateY(-30px) rotate(360deg); }
-  }
-
-  /* Chakra particles */
-  .chakra-particle {
-    position: absolute;
-    width: 4px; height: 4px;
-    background: var(--chakra);
-    border-radius: 50%;
-    box-shadow: 0 0 8px var(--chakra2);
-    animation: chakraFloat var(--cdur, 5s) ease-in-out infinite var(--cdelay, 0s);
-    pointer-events: none;
-  }
-  @keyframes chakraFloat {
-    0%,100% { transform: translateY(0) scale(1); opacity: 0; }
-    50% { transform: translateY(-60px) scale(1.5); opacity: 1; }
-  }
-
-  /* ── HERO CONTENT ── */
-  .hero-content {
-    position: relative; z-index: 10;
-    display: flex; flex-direction: column;
-    align-items: center; text-align: center;
-    gap: 0;
-    padding-top: 60px;
-  }
-
-  /* Headband */
-  .headband {
-    display: flex; align-items: center; gap: 16px;
-    margin-bottom: 24px;
-    opacity: 0;
-    animation: slideDown .8s ease-out 2.2s forwards;
-  }
-  .headband-line {
-    width: 80px; height: 2px;
-    background: linear-gradient(90deg, transparent, var(--orange));
-  }
-  .headband-line.right { background: linear-gradient(90deg, var(--orange), transparent); }
-  .headband-plate {
-    background: #888;
-    border: 2px solid #aaa;
-    border-radius: 4px;
-    padding: 6px 20px;
-    font-family: 'Noto Sans JP', sans-serif;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 3px;
-    color: #222;
-    text-transform: uppercase;
-    position: relative;
-    overflow: hidden;
-  }
-  .headband-plate::after {
-    content: '';
-    position: absolute; inset: 0;
-    background: linear-gradient(135deg, rgba(255,255,255,.3) 0%, transparent 60%);
-  }
-  .headband-symbol {
-    position: absolute; top: 50%; left: 50%;
-    transform: translate(-50%,-50%);
-    font-size: 18px; opacity: .15;
-    color: #111;
-  }
-
-  /* Pre-title */
-  .pre-title {
-    font-size: 11px; letter-spacing: 8px;
+  .scroll-hint span {
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
     color: var(--orange);
-    font-weight: 300;
     text-transform: uppercase;
-    opacity: 0;
-    animation: fadeUp .8s ease-out 2.5s forwards;
-    margin-bottom: 12px;
   }
-
-  /* MAIN TITLE */
-  .main-title {
-    font-family: 'Cinzel Decorative', serif;
-    font-size: clamp(36px, 8vw, 80px);
-    font-weight: 900;
-    line-height: 1;
-    color: var(--white);
-    opacity: 0;
-    animation: titleReveal 1.2s ease-out 2.8s forwards;
-    position: relative;
-    text-shadow:
-      0 0 40px rgba(255,107,0,.4),
-      0 0 80px rgba(255,107,0,.2);
-    margin-bottom: 8px;
-  }
-  .main-title .orange { color: var(--orange); }
-  @keyframes titleReveal {
-    0% { opacity: 0; transform: scale(.92) translateY(20px); }
-    60% { transform: scale(1.02) translateY(-4px); }
-    100% { opacity: 1; transform: scale(1) translateY(0); }
-  }
-
-  /* Sub title Japanese */
-  .jp-title {
-    font-family: 'Noto Sans JP', sans-serif;
-    font-size: clamp(14px, 3vw, 22px);
-    font-weight: 300;
-    letter-spacing: 12px;
-    color: rgba(255,255,255,.5);
-    opacity: 0;
-    animation: fadeUp .8s ease-out 3.4s forwards;
-    margin-bottom: 40px;
-  }
-
-  /* Birthday name */
-  .birthday-person {
-    font-family: 'Cinzel Decorative', serif;
-    font-size: clamp(20px, 5vw, 48px);
-    font-weight: 700;
-    color: var(--yellow);
-    opacity: 0;
-    animation: fadeUp .8s ease-out 3.7s forwards;
-    text-shadow: 0 0 30px rgba(255,215,0,.5);
-    margin-bottom: 12px;
-  }
-
-  /* Tagline */
-  .tagline {
-    font-size: clamp(13px, 2.5vw, 18px);
-    font-weight: 300;
-    color: rgba(255,255,255,.65);
-    letter-spacing: 3px;
-    opacity: 0;
-    animation: fadeUp .8s ease-out 4s forwards;
-    margin-bottom: 50px;
-    font-style: italic;
-  }
-
-  /* Believe it button */
-  .believe-btn {
-    display: inline-flex; align-items: center; gap: 10px;
-    background: transparent;
-    border: 1.5px solid var(--orange);
-    color: var(--orange);
-    font-family: 'Cinzel Decorative', serif;
-    font-size: 12px;
-    letter-spacing: 4px;
-    padding: 14px 36px;
-    cursor: pointer;
-    text-transform: uppercase;
-    opacity: 0;
-    animation: fadeUp .8s ease-out 4.3s forwards;
-    position: relative;
-    overflow: hidden;
-    transition: color .3s, border-color .3s;
-  }
-  .believe-btn::before {
-    content: '';
-    position: absolute; inset: 0;
-    background: var(--orange);
-    transform: translateX(-101%);
-    transition: transform .4s ease;
-  }
-  .believe-btn:hover::before { transform: translateX(0); }
-  .believe-btn:hover { color: var(--dark); }
-  .believe-btn span { position: relative; z-index: 1; }
-
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes slideDown {
-    from { opacity: 0; transform: translateY(-20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  /* Ground / silhouette */
-  .silhouette-ground {
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    height: 220px;
-    z-index: 3;
-    overflow: hidden;
-  }
-
-  /* ── SCROLL INDICATOR ── */
-  .scroll-hint {
-    position: absolute; bottom: 30px; left: 50%;
-    transform: translateX(-50%);
-    z-index: 20;
-    display: flex; flex-direction: column; align-items: center;
-    gap: 6px;
-    opacity: 0;
-    animation: fadeUp 1s ease-out 5s forwards;
-  }
-  .scroll-hint span { font-size: 10px; letter-spacing: 4px; color: rgba(255,255,255,.3); }
   .scroll-arrow {
-    width: 16px; height: 24px;
-    border: 1px solid rgba(255,107,0,.4);
-    border-radius: 8px;
-    position: relative;
+    width: 2px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--orange), transparent);
+    animation: scroll-flow 1.5s ease-in-out infinite;
   }
-  .scroll-arrow::after {
+  @keyframes scroll-flow {
+    0% { opacity: 0; transform: scaleY(0); transform-origin: top; }
+    50% { opacity: 1; transform: scaleY(1); }
+    100% { opacity: 0; transform: translateY(20px); }
+  }
+
+  @keyframes fade-up {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ===== PANEL: MANGA SCROLL PANELS ===== */
+  .manga-panel {
+    background: var(--paper);
+    color: var(--ink);
+    position: relative;
+    padding: 0;
+    min-height: auto;
+  }
+
+  .manga-inner {
+    max-width: 900px;
+    width: 100%;
+    padding: 3rem 2rem;
+  }
+
+  .panel-number {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.65rem;
+    color: var(--deep-orange);
+    letter-spacing: 0.3em;
+    margin-bottom: 0.5rem;
+    opacity: 0.7;
+  }
+
+  .panel-box {
+    border: 3px solid var(--ink);
+    background: var(--paper);
+    padding: 2rem;
+    position: relative;
+    margin: 1rem 0;
+    box-shadow: 6px 6px 0 var(--ink);
+    opacity: 0;
+    transform: translateX(-40px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .panel-box.from-right {
+    transform: translateX(40px);
+  }
+
+  .panel-box.revealed {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .panel-box::before {
     content: '';
-    position: absolute; top: 4px; left: 50%;
-    transform: translateX(-50%);
-    width: 3px; height: 6px;
-    background: var(--orange);
-    border-radius: 2px;
-    animation: scrollBounce 1.5s ease-in-out infinite;
-  }
-  @keyframes scrollBounce {
-    0%,100% { transform: translateX(-50%) translateY(0); opacity: 1; }
-    100% { transform: translateX(-50%) translateY(8px); opacity: 0; }
+    position: absolute;
+    top: -3px; right: -3px;
+    width: 20px; height: 20px;
+    background: var(--deep-orange);
+    clip-path: polygon(100% 0, 0 0, 100% 100%);
   }
 
-  /* ── SECTION 2: MESSAGE ── */
-  #message {
+  .speech-bubble {
+    background: white;
+    border: 3px solid var(--ink);
+    border-radius: 20px;
+    padding: 1.2rem 1.5rem;
     position: relative;
-    padding: 100px 20px;
-    overflow: hidden;
-    background: linear-gradient(180deg, var(--darker) 0%, #0d0500 50%, var(--darker) 100%);
+    margin: 1.5rem 0;
+    box-shadow: 4px 4px 0 var(--ink);
+    font-family: 'Kalam', cursive;
+    font-size: 1.05rem;
+    line-height: 1.6;
   }
 
-  .ink-divider {
-    width: 100%; height: 2px;
-    background: linear-gradient(90deg, transparent, var(--orange), transparent);
-    margin-bottom: 80px;
-    position: relative;
+  .speech-bubble::after {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    left: 30px;
+    border: 10px solid transparent;
+    border-top-color: var(--ink);
   }
-  .ink-divider::before {
-    content: '卍';
-    position: absolute; left: 50%; top: 50%;
-    transform: translate(-50%,-50%);
-    background: var(--darker);
-    color: var(--orange);
-    font-size: 20px;
-    padding: 0 16px;
-  }
-
-  .message-wrap {
-    max-width: 860px; margin: 0 auto;
-    position: relative; z-index: 2;
+  .speech-bubble::before {
+    content: '';
+    position: absolute;
+    bottom: -14px;
+    left: 32px;
+    border: 8px solid transparent;
+    border-top-color: white;
+    z-index: 1;
   }
 
-  .chapter-label {
-    font-size: 10px; letter-spacing: 8px;
-    color: rgba(255,107,0,.5);
-    text-transform: uppercase;
-    margin-bottom: 16px;
+  .speech-bubble.right::after {
+    left: auto;
+    right: 30px;
+  }
+  .speech-bubble.right::before {
+    left: auto;
+    right: 32px;
+  }
+
+  .character-name {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.7rem;
+    color: var(--deep-orange);
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    margin-bottom: 0.3rem;
     display: block;
   }
 
-  .message-quote {
-    font-family: 'Cinzel Decorative', serif;
-    font-size: clamp(22px, 4.5vw, 42px);
-    font-weight: 700;
-    line-height: 1.3;
-    color: var(--white);
-    margin-bottom: 40px;
-    position: relative;
-    padding-left: 20px;
-  }
-  .message-quote::before {
-    content: '';
-    position: absolute; left: 0; top: 0; bottom: 0;
-    width: 3px;
-    background: linear-gradient(180deg, var(--orange), var(--red));
-  }
-  .message-quote .accent { color: var(--orange); }
-
-  .message-body {
-    font-size: clamp(14px, 2vw, 17px);
-    line-height: 2;
-    color: rgba(255,248,240,.7);
-    font-weight: 300;
-    max-width: 680px;
+  .manga-text {
+    font-family: 'Kalam', cursive;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--ink);
   }
 
-  /* traits grid */
-  .traits-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
-    margin-top: 60px;
-  }
-  .trait-card {
-    border: .5px solid rgba(255,107,0,.25);
-    padding: 28px 24px;
-    position: relative;
-    transition: border-color .3s, transform .3s;
-    cursor: default;
-    background: rgba(255,107,0,.03);
-  }
-  .trait-card:hover {
-    border-color: var(--orange);
-    transform: translateY(-4px);
-    background: rgba(255,107,0,.06);
-  }
-  .trait-card::before {
-    content: attr(data-num);
-    position: absolute; top: 12px; right: 16px;
-    font-family: 'Cinzel Decorative', serif;
-    font-size: 36px;
-    color: rgba(255,107,0,.07);
+  .sfx {
+    font-family: 'Cinzel Decorative', cursive;
+    font-size: clamp(2rem, 8vw, 5rem);
     font-weight: 900;
-    line-height: 1;
-  }
-  .trait-icon { font-size: 24px; margin-bottom: 12px; display: block; }
-  .trait-title {
-    font-family: 'Cinzel Decorative', serif;
-    font-size: 13px;
-    color: var(--orange);
-    letter-spacing: 2px;
-    margin-bottom: 8px;
-  }
-  .trait-desc {
-    font-size: 13px;
-    color: rgba(255,248,240,.55);
-    line-height: 1.7;
-    font-weight: 300;
+    color: var(--deep-orange);
+    text-shadow: 3px 3px 0 var(--ink);
+    transform: rotate(-5deg);
+    display: block;
+    text-align: center;
+    margin: 0.5rem 0;
+    opacity: 0.85;
   }
 
-  /* ── SECTION 3: JUTSU / WISHES ── */
-  #jutsu {
-    padding: 100px 20px;
+  /* ===== DARK CINEMATIC SECTIONS ===== */
+  .dark-section {
     background: var(--darker);
+    color: var(--white);
+  }
+
+  .dark-section .panel-box {
+    border-color: var(--orange);
+    background: rgba(255,107,0,0.05);
+    box-shadow: 6px 6px 0 var(--orange), 0 0 30px rgba(255,107,0,0.2);
+    color: var(--white);
+  }
+
+  .dark-section .panel-box::before {
+    background: var(--orange);
+  }
+
+  /* ===== RIDDLE SECTION ===== */
+  .riddle-card {
+    background: var(--ink);
+    border: 2px solid var(--gold);
+    padding: 2rem;
+    border-radius: 4px;
+    box-shadow: 0 0 30px rgba(255,215,0,0.2), inset 0 0 20px rgba(0,0,0,0.5);
+    margin: 1rem 0;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+
+  .riddle-card:hover { transform: scale(1.01); }
+
+  .riddle-q {
+    font-family: 'Kalam', cursive;
+    font-size: 1.1rem;
+    color: var(--gold);
+    margin-bottom: 1rem;
+  }
+
+  .riddle-a {
+    font-family: 'Kalam', cursive;
+    font-size: 1rem;
+    color: var(--orange);
+    filter: blur(8px);
+    transition: filter 0.5s;
+    cursor: pointer;
+  }
+
+  .riddle-a.revealed-text { filter: blur(0); }
+
+  .riddle-hint {
+    font-size: 0.7rem;
+    color: var(--paper-dark);
+    letter-spacing: 0.2em;
+    margin-top: 0.5rem;
+    opacity: 0.6;
+    text-transform: uppercase;
+  }
+
+  /* ===== CHAKRA METER ===== */
+  .chakra-meter-wrap {
+    width: 100%;
+    max-width: 500px;
+    margin: 2rem auto;
+  }
+
+  .chakra-label {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    color: var(--orange);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+  }
+
+  .chakra-bar {
+    height: 12px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+    border: 1px solid rgba(255,107,0,0.3);
+  }
+
+  .chakra-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--deep-orange), var(--gold));
+    border-radius: 6px;
+    width: 0%;
+    transition: width 1.5s ease;
+    box-shadow: 0 0 10px var(--orange);
     position: relative;
     overflow: hidden;
   }
 
-  .jutsu-bg {
-    position: absolute; inset: 0;
-    background: radial-gradient(ellipse at 50% 50%, rgba(255,107,0,.04) 0%, transparent 70%);
-    pointer-events: none;
+  .chakra-fill::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    animation: shimmer 2s infinite;
   }
 
-  .section-header {
-    text-align: center; margin-bottom: 70px;
-    position: relative; z-index: 2;
-  }
-  .section-header .eyebrow {
-    font-size: 10px; letter-spacing: 8px;
-    color: rgba(255,107,0,.5);
-    text-transform: uppercase; margin-bottom: 14px;
-  }
-  .section-header h2 {
-    font-family: 'Cinzel Decorative', serif;
-    font-size: clamp(24px, 5vw, 48px);
-    color: var(--white);
-  }
-  .section-header h2 .orange { color: var(--orange); }
-
-  /* Wish scroll */
-  .wishes-list {
-    max-width: 760px; margin: 0 auto;
-    position: relative; z-index: 2;
-    display: flex; flex-direction: column; gap: 0;
-  }
-  .wish-item {
-    display: flex; gap: 24px; align-items: flex-start;
-    padding: 28px 0;
-    border-bottom: .5px solid rgba(255,107,0,.1);
-    opacity: 0;
-    transform: translateX(-30px);
-    transition: opacity .6s ease, transform .6s ease;
-  }
-  .wish-item.visible { opacity: 1; transform: translateX(0); }
-
-  .wish-num {
-    font-family: 'Cinzel Decorative', serif;
-    font-size: 11px;
-    color: var(--orange);
-    opacity: .6;
-    min-width: 28px;
-    margin-top: 3px;
-    letter-spacing: 1px;
-  }
-  .wish-content {}
-  .wish-title {
-    font-family: 'Cinzel Decorative', serif;
-    font-size: clamp(15px, 2.5vw, 20px);
-    color: var(--white);
-    margin-bottom: 8px;
-  }
-  .wish-desc {
-    font-size: 14px;
-    color: rgba(255,248,240,.55);
-    line-height: 1.8;
-    font-weight: 300;
+  @keyframes shimmer {
+    to { left: 200%; }
   }
 
-  /* ── SECTION 4: SIGN OFF ── */
-  #signoff {
-    padding: 120px 20px 80px;
+  /* ===== FINAL SCROLL ===== */
+  #final {
+    background: var(--darker);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     text-align: center;
     position: relative;
     overflow: hidden;
-    background: linear-gradient(180deg, var(--darker), #0d0300 50%, var(--darker));
   }
 
-  .spiral-seal {
-    margin: 0 auto 40px;
-    width: 100px; height: 100px;
-    animation: rotateSeal 20s linear infinite;
-    opacity: .15;
-    transition: opacity .3s;
-  }
-  .spiral-seal:hover { opacity: .5; }
-  @keyframes rotateSeal { to { transform: rotate(360deg); } }
-
-  .signoff-title {
-    font-family: 'Cinzel Decorative', serif;
-    font-size: clamp(28px, 6vw, 64px);
-    font-weight: 900;
-    color: var(--orange);
-    text-shadow: 0 0 60px rgba(255,107,0,.4);
-    margin-bottom: 16px;
-    line-height: 1.1;
-  }
-  .signoff-sub {
-    font-size: 14px;
-    letter-spacing: 6px;
-    color: rgba(255,255,255,.35);
-    text-transform: uppercase;
-    margin-bottom: 60px;
-  }
-  .believe-tag {
-    display: inline-block;
-    font-family: 'Cinzel Decorative', serif;
-    font-size: clamp(18px, 4vw, 36px);
-    color: var(--yellow);
-    letter-spacing: 3px;
-    text-shadow: 0 0 40px rgba(255,215,0,.4);
-    animation: believePulse 2.5s ease-in-out infinite;
-  }
-  @keyframes believePulse {
-    0%,100%{ text-shadow: 0 0 30px rgba(255,215,0,.3); }
-    50%{ text-shadow: 0 0 60px rgba(255,215,0,.7); }
-  }
-
-  /* Fireworks */
-  .firework-container {
-    position: absolute; inset: 0;
-    pointer-events: none; z-index: 1;
-  }
-  .spark {
+  #final::before {
+    content: '';
     position: absolute;
-    width: 3px; height: 3px;
-    border-radius: 50%;
-    animation: sparkFly var(--sdur,2s) ease-out var(--sdelay,0s) infinite;
-    opacity: 0;
-  }
-  @keyframes sparkFly {
-    0% { transform: translate(0,0) scale(1); opacity: 1; }
-    100% { transform: translate(var(--sx,50px), var(--sy,-80px)) scale(0); opacity: 0; }
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 50%, rgba(255,107,0,0.2) 0%, rgba(153,0,0,0.1) 40%, transparent 70%);
   }
 
-  /* ── RESPONSIVE ── */
-  @media(max-width: 600px) {
-    .traits-grid { grid-template-columns: 1fr 1fr; }
-    .headband-line { width: 40px; }
+  .final-kanji {
+    font-family: 'Noto Serif JP', serif;
+    font-size: clamp(4rem, 15vw, 10rem);
+    font-weight: 700;
+    color: transparent;
+    -webkit-text-stroke: 2px var(--orange);
+    opacity: 0.1;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: kanji-rotate 20s linear infinite;
+    pointer-events: none;
+    white-space: nowrap;
   }
+
+  @keyframes kanji-rotate {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+  }
+
+  .final-name {
+    font-family: 'Cinzel Decorative', cursive;
+    font-size: clamp(1.5rem, 5vw, 3.5rem);
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--gold) 0%, var(--orange) 50%, var(--gold) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+    text-shadow: none;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: opacity 1s ease, transform 1s ease;
+  }
+
+  .final-name.revealed { opacity: 1; transform: scale(1); }
+
+  .seal-circle {
+    width: 200px; height: 200px;
+    border: 3px solid var(--orange);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin: 2rem auto;
+    animation: seal-spin 10s linear infinite;
+  }
+
+  .seal-circle::before {
+    content: '';
+    position: absolute;
+    inset: 8px;
+    border: 1px solid rgba(255,107,0,0.4);
+    border-radius: 50%;
+  }
+
+  .seal-circle::after {
+    content: '巻';
+    font-family: 'Noto Serif JP', serif;
+    font-size: 3rem;
+    color: var(--orange);
+    animation: seal-spin 10s linear infinite reverse;
+  }
+
+  @keyframes seal-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .final-wish {
+    font-family: 'Kalam', cursive;
+    font-size: clamp(1rem, 3vw, 1.4rem);
+    color: var(--paper);
+    line-height: 1.9;
+    max-width: 600px;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 1s ease 0.3s, transform 1s ease 0.3s;
+  }
+
+  .final-wish.revealed { opacity: 1; transform: translateY(0); }
+
+  /* ===== EXPLOSION EFFECT ===== */
+  .explosion-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+  }
+
+  .explosion-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 3px solid var(--orange);
+    opacity: 0;
+    animation: explode 2s ease-out infinite;
+  }
+
+  .explosion-ring:nth-child(1) { width: 60px; height: 60px; animation-delay: 0s; }
+  .explosion-ring:nth-child(2) { width: 60px; height: 60px; animation-delay: 0.4s; border-color: var(--gold); }
+  .explosion-ring:nth-child(3) { width: 60px; height: 60px; animation-delay: 0.8s; border-color: var(--red); }
+
+  @keyframes explode {
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(4); opacity: 0; }
+  }
+
+  /* ===== JUTSU BUTTON ===== */
+  .jutsu-btn {
+    background: transparent;
+    border: 2px solid var(--orange);
+    color: var(--orange);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.3em;
+    padding: 0.8rem 2rem;
+    cursor: pointer;
+    text-transform: uppercase;
+    position: relative;
+    overflow: hidden;
+    transition: color 0.3s;
+    margin-top: 1rem;
+  }
+
+  .jutsu-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--orange);
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    z-index: -1;
+  }
+
+  .jutsu-btn:hover { color: var(--darker); }
+  .jutsu-btn:hover::before { transform: translateX(0); }
+
+  /* ===== HORIZONTAL SCROLL STRIP ===== */
+  .timeline-strip {
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 1rem 0;
+    scrollbar-width: thin;
+    scrollbar-color: var(--orange) transparent;
+    width: 100%;
+    max-width: 900px;
+  }
+
+  .timeline-item {
+    display: inline-block;
+    vertical-align: top;
+    white-space: normal;
+    width: 220px;
+    margin-right: 1rem;
+    background: rgba(255,107,0,0.08);
+    border: 2px solid var(--orange);
+    padding: 1.2rem;
+    border-radius: 4px;
+    position: relative;
+  }
+
+  .timeline-item .ti-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.65rem;
+    color: var(--gold);
+    letter-spacing: 0.2em;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+  }
+
+  .timeline-item .ti-body {
+    font-family: 'Kalam', cursive;
+    font-size: 0.95rem;
+    color: var(--white);
+    line-height: 1.5;
+  }
+
+  /* ===== PARALLAX TEXT WATERMARKS ===== */
+  .watermark {
+    position: absolute;
+    font-family: 'Cinzel Decorative', cursive;
+    font-size: clamp(4rem, 15vw, 12rem);
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(255,107,0,0.08);
+    pointer-events: none;
+    user-select: none;
+    white-space: nowrap;
+    z-index: 0;
+  }
+
+  /* ===== PROGRESS BAR ===== */
+  #progress-bar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--deep-orange), var(--gold));
+    z-index: 1000;
+    transition: width 0.1s;
+    box-shadow: 0 0 8px var(--orange);
+  }
+
+  /* ===== PAGE NUMBER ===== */
+  #page-num {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.65rem;
+    color: var(--orange);
+    letter-spacing: 0.2em;
+    opacity: 0.5;
+    z-index: 100;
+  }
+
+  /* ===== FIRE DIVIDER ===== */
+  .fire-divider {
+    text-align: center;
+    font-size: 1.5rem;
+    letter-spacing: 0.3em;
+    color: var(--orange);
+    padding: 1.5rem 0;
+    animation: flicker 1.5s ease-in-out infinite alternate;
+  }
+
+  @keyframes flicker {
+    from { text-shadow: 0 0 10px var(--orange); }
+    to { text-shadow: 0 0 30px var(--gold), 0 0 60px var(--orange); }
+  }
+
+  /* ===== RESPONSIVE ===== */
+  .manga-inner, .dark-inner {
+    max-width: 900px;
+    width: 100%;
+    padding: 3rem 2rem;
+  }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin: 1rem 0;
+  }
+
+  @media (max-width: 600px) {
+    .two-col { grid-template-columns: 1fr; }
+    .seal-circle { width: 150px; height: 150px; }
+  }
+
+  /* ===== PARTICLE BURST ===== */
+  .particle {
+    position: fixed;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    animation: particle-fly 1s ease-out forwards;
+  }
+
+  @keyframes particle-fly {
+    to { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
+  }
+
+  .hand-seal-display {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 2.5rem;
+    color: var(--orange);
+    letter-spacing: 0.5em;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.5s;
+    min-height: 3rem;
+  }
+
+  .verdict-box {
+    background: rgba(255,107,0,0.1);
+    border-left: 4px solid var(--orange);
+    padding: 1rem 1.5rem;
+    margin: 1rem 0;
+    font-family: 'Kalam', cursive;
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--white);
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: all 0.6s ease;
+  }
+
+  .verdict-box.revealed {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .akatsuki-red { color: #CC0000; }
+  .konoha-orange { color: var(--orange); }
+  .gold-text { color: var(--gold); }
+
+  /* Nindo quote styling */
+  .nindo-quote {
+    font-family: 'Cinzel Decorative', cursive;
+    font-size: clamp(0.9rem, 2.5vw, 1.3rem);
+    color: var(--gold);
+    text-align: center;
+    border-top: 1px solid rgba(255,215,0,0.3);
+    border-bottom: 1px solid rgba(255,215,0,0.3);
+    padding: 1.5rem 1rem;
+    margin: 1.5rem 0;
+    line-height: 1.7;
+    letter-spacing: 0.05em;
+  }
+
+  .emoji-large { font-size: 2rem; }
 </style>
 </head>
 <body>
 
-<div class="cursor" id="cursor"></div>
+<div id="progress-bar" style="width:0%"></div>
+<div id="page-num">PAGE 001</div>
+<div class="cursor-fx" id="cursor"></div>
 
-<!-- LOADER -->
-<div id="loader">
-  <div class="loader-spiral"></div>
-  <div class="loader-text">Channeling Chakra...</div>
-</div>
+<canvas id="chakra-canvas"></canvas>
 
-<!-- HERO -->
-<section id="hero">
-  <div class="sky-bg"></div>
-  <div class="stars" id="stars"></div>
-  <div class="kunai-container" id="kunaiContainer"></div>
-  <div id="chakraParticles"></div>
+<div class="scroll-wrapper">
 
-  <!-- Rising Sun SVG -->
-  <div class="rising-sun">
-    <svg viewBox="0 0 220 220" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <radialGradient id="sunGrad" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stop-color="#FFD700" stop-opacity=".9"/>
-          <stop offset="40%" stop-color="#FF8C00" stop-opacity=".5"/>
-          <stop offset="100%" stop-color="#FF4500" stop-opacity="0"/>
-        </radialGradient>
-      </defs>
-      <!-- Rays -->
-      <g transform="translate(110,110)" opacity=".6">
-        <line x1="0" y1="-95" x2="0" y2="-108" stroke="#FFD700" stroke-width="1.5" opacity=".4"/>
-        <line x1="0" y1="-95" x2="0" y2="-108" stroke="#FFD700" stroke-width="1.5" opacity=".4" transform="rotate(30)"/>
-        <line x1="0" y1="-95" x2="0" y2="-108" stroke="#FFD700" stroke-width="1.5" opacity=".4" transform="rotate(60)"/>
-        <line x1="0" y1="-95" x2="0" y2="-108" stroke="#FFD700" stroke-width="1.5" opacity=".4" transform="rotate(90)"/>
-        <line x1="0" y1="-95" x2="0" y2="-108" stroke="#FFD700" stroke-width="1.5" opacity=".4" transform="rotate(120)"/>
-        <line x1="0" y1="-95" x2="0" y2="-108" stroke="#FFD700" stroke-width="1.5" opacity=".4" transform="rotate(150)"/>
-        <line x1="0" y1="-95" x2="0" y2="-108" stroke="#FFD700" stroke-width="1.5" opacity=".4" transform="rotate(180)"/>
-        <line x1="0" y1="-95" x2="0" y2="-108" stroke="#FFD700" stroke-width="1.5" opacity=".4" transform="rotate(210)"/>
-        <line x1="0" y1="-95" x2="0" y2="-108" stroke="#FFD700" stroke-width="1.5" opacity=".4" transform="rotate(240)"/>
-        <line x1="0" y1="-95" x2="0" y2="-108" stroke="#FFD700" stroke-width="1.5" opacity=".4" transform="rotate(270)"/>
-        <line x1="0" y1="-95" x2="0" y2="-108" stroke="#FFD700" stroke-width="1.5" opacity=".4" transform="rotate(300)"/>
-        <line x1="0" y1="-95" x2="0" y2="-108" stroke="#FFD700" stroke-width="1.5" opacity=".4" transform="rotate(330)"/>
-      </g>
-      <circle cx="110" cy="110" r="75" fill="url(#sunGrad)"/>
-      <!-- Spiral seal -->
-      <g transform="translate(110,110)" fill="none" stroke="#FF8C00" stroke-width="1.2" opacity=".7">
-        <path d="M0,0 Q20,-30 0,-50 Q-30,-25 -35,10 Q-20,45 15,50 Q55,40 60,0 Q50,-55 0,-60"/>
-      </g>
-      <circle cx="110" cy="110" r="20" fill="#FF8C00" opacity=".3"/>
-      <circle cx="110" cy="110" r="6" fill="#FFD700" opacity=".8"/>
-    </svg>
-  </div>
-
-  <!-- Village silhouette -->
-  <div class="silhouette-ground">
-    <svg viewBox="0 0 1440 220" preserveAspectRatio="none" style="width:100%;height:100%;" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <!-- Mountains / cliffs -->
-      <path d="M0 220 L0 140 L60 100 L120 130 L200 70 L280 110 L350 60 L420 100 L500 40 L570 80 L640 30 L720 70 L800 20 L870 55 L940 10 L1010 50 L1080 25 L1150 60 L1220 35 L1290 65 L1360 40 L1440 70 L1440 220 Z" fill="#0a0400"/>
-      <!-- Buildings / Konoha silhouette -->
-      <rect x="60" y="150" width="18" height="50" fill="#0a0400"/>
-      <polygon points="60,150 78,150 69,130" fill="#0a0400"/>
-      <rect x="100" y="160" width="28" height="40" fill="#0a0400"/>
-      <rect x="110" y="150" width="8" height="10" fill="#0a0400"/>
-      <rect x="160" y="145" width="40" height="55" fill="#0a0400"/>
-      <rect x="170" y="130" width="20" height="15" fill="#0a0400"/>
-      <rect x="175" y="120" width="10" height="10" fill="#0a0400"/>
-      <rect x="220" y="155" width="22" height="45" fill="#0a0400"/>
-      <rect x="260" y="148" width="32" height="52" fill="#0a0400"/>
-      <rect x="270" y="132" width="12" height="16" fill="#0a0400"/>
-      <!-- Hokage monument hint -->
-      <rect x="640" y="60" width="160" height="140" fill="#0a0400"/>
-      <rect x="660" y="50" width="20" height="20" fill="#0a0400"/>
-      <rect x="690" y="45" width="20" height="20" fill="#0a0400"/>
-      <rect x="720" y="42" width="20" height="20" fill="#0a0400"/>
-      <rect x="750" y="45" width="20" height="20" fill="#0a0400"/>
-      <!-- Ground -->
-      <rect x="0" y="200" width="1440" height="20" fill="#050300"/>
-    </svg>
-  </div>
-
-  <!-- Main hero content -->
-  <div class="hero-content">
-    <div class="headband">
-      <div class="headband-line"></div>
-      <div class="headband-plate">
-        <span style="position:relative;z-index:1;font-size:10px;letter-spacing:3px">木ノ葉隠れの里</span>
-      </div>
-      <div class="headband-line right"></div>
-    </div>
-
-    <p class="pre-title">A Shinobi's Greeting</p>
-
-    <h1 class="main-title">
-      Happy<br><span class="orange">Birthday</span>
+  <!-- ===== CHAPTER 0: CINEMATIC OPENER ===== -->
+  <section id="intro">
+    <span class="leaf-symbol">🍃</span>
+    <h1 class="intro-title">
+      Konohagakure Intel Report<br>
+      <span style="font-size:0.6em; color: var(--orange);">— Classified — Eyes Only —</span>
     </h1>
+    <p class="intro-sub">Target: Draksmer Augustin &nbsp;·&nbsp; Status: Birthday Mode Activated</p>
+    <div class="scroll-hint">
+      <span>Scroll to deploy</span>
+      <div class="scroll-arrow"></div>
+    </div>
+    <div class="watermark" style="bottom: 5%; left: -5%; transform: rotate(-10deg);">誕生日</div>
+  </section>
 
-    <p class="jp-title">お誕生日おめでとう</p>
+  <!-- ===== CHAPTER 1: THE MISSION BRIEF ===== -->
+  <div class="chapter-mark">— Chapter I : The Mission —</div>
 
-    <p class="birthday-person" id="birthdayName">To You, My Friend</p>
+  <section class="manga-panel" id="ch1">
+    <div class="manga-inner">
+      <div class="panel-box" data-reveal="left">
+        <span class="panel-number">PANEL 01 — HOKAGE OFFICE — DAWN</span>
+        <div class="speech-bubble">
+          <span class="character-name">🦊 HOKAGE (Narrating)</span>
+          Somewhere in this chaotic world… a legend was born. Not with a Nine-Tails sealed inside them — but with something rarer. <strong>Draksmer Augustin</strong> entered this dimension with maxed-out swag stats.
+        </div>
+        <p class="manga-text" style="margin-top:1rem">
+          The birds chirped. The ninjas froze. Somewhere, a ramen bowl got hotter on its own.
+        </p>
+        <span class="sfx">BOOM!!</span>
+      </div>
 
-    <p class="tagline">"The fire of the Leaf shall never be extinguished"</p>
+      <div class="panel-box from-right" data-reveal="right" style="margin-top:2rem">
+        <span class="panel-number">PANEL 02 — THE INTEL SCROLL</span>
+        <p class="manga-text">
+          The mission briefing has been received. The scroll reads:
+        </p>
+        <div class="nindo-quote">
+          "Every year on this day, the universe pauses and whispers — <em>'We did well when we made this one.'</em>"
+        </div>
+        <p class="manga-text" style="font-size:0.9rem; opacity:0.7">
+          — Ancient Konoha archive, probably
+        </p>
+      </div>
+    </div>
+  </section>
 
-    <button class="believe-btn" onclick="triggerJutsu()">
-      <span>Dattebayo! Believe It!</span>
-    </button>
-  </div>
+  <div class="fire-divider">🔥 🔥 🔥</div>
 
-  <div class="scroll-hint">
-    <span>Scroll</span>
-    <div class="scroll-arrow"></div>
-  </div>
-</section>
+  <!-- ===== CHAPTER 2: CHARACTER FILE ===== -->
+  <div class="chapter-mark">— Chapter II : The Character Profile —</div>
 
-<!-- MESSAGE SECTION -->
-<section id="message">
-  <div class="ink-divider"></div>
-  <div class="message-wrap">
-    <span class="chapter-label">Chapter 01 — The Message</span>
-    <h2 class="message-quote">
-      "A person who has <span class="accent">truly mastered</span> their strength does not <span class="accent">boast</span>.<br>They simply <span class="accent">shine</span>."
+  <section style="background: #0D0D1A; padding: 4rem 2rem;">
+    <div class="dark-inner" style="max-width:900px; width:100%; padding:2rem">
+      <div class="panel-box" data-reveal="left">
+        <span class="panel-number" style="color: var(--gold);">⚡ SHINOBI REGISTRATION — FILE #DRAKSMER</span>
+        <div style="margin-top: 1rem; color: var(--white);">
+          <div class="two-col">
+            <div class="verdict-box" data-reveal-box>
+              <strong class="konoha-orange">NAME</strong><br>
+              Draksmer Augustin<br>
+              <em style="font-size:0.85rem; opacity:0.7">(Codename: "The One Who Shows Up With Big Energy")</em>
+            </div>
+            <div class="verdict-box" data-reveal-box>
+              <strong class="konoha-orange">RANK</strong><br>
+              S-Class Birthday Boy<br>
+              <em style="font-size:0.85rem; opacity:0.7">(Kage-level vibes confirmed)</em>
+            </div>
+            <div class="verdict-box" data-reveal-box>
+              <strong class="konoha-orange">KEKKEI GENKAI</strong><br>
+              "Drak no Jutsu" — the ability to make any situation better just by being there
+            </div>
+            <div class="verdict-box" data-reveal-box>
+              <strong class="konoha-orange">WEAKNESS</strong><br>
+              Still not Hokage. Yet. <span class="emoji-large">😤</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chakra Meter -->
+      <div class="chakra-meter-wrap" id="chakra-wrap">
+        <div class="chakra-label">Friendship Chakra Level</div>
+        <div class="chakra-bar"><div class="chakra-fill" id="cf1" data-width="95"></div></div>
+
+        <div class="chakra-label">Absolute Chaos Energy</div>
+        <div class="chakra-bar"><div class="chakra-fill" id="cf2" data-width="100" style="background: linear-gradient(90deg, var(--red), var(--orange))"></div></div>
+
+        <div class="chakra-label">Birthday Hype Reserve</div>
+        <div class="chakra-bar"><div class="chakra-fill" id="cf3" data-width="88" style="background: linear-gradient(90deg, var(--purple-chakra), var(--blue-chakra))"></div></div>
+
+        <div class="chakra-label">Nindo (Ninja Way) Conviction</div>
+        <div class="chakra-bar"><div class="chakra-fill" id="cf4" data-width="9000" style="background: linear-gradient(90deg, var(--gold), white)"></div></div>
+        <p style="font-size:0.7rem; color: var(--orange); text-align:right; letter-spacing:0.2em">IT'S OVER 9000 →</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="fire-divider">🍥 🍥 🍥</div>
+
+  <!-- ===== CHAPTER 3: THE RIDDLES ===== -->
+  <div class="chapter-mark">— Chapter III : Orochimaru's Birthday Riddles —</div>
+
+  <section style="background: #080813; padding: 4rem 2rem;">
+    <div class="dark-inner" style="max-width: 800px; width: 100%; padding: 2rem;">
+
+      <div class="panel-box" data-reveal="left" style="border-color: var(--purple-chakra); box-shadow: 6px 6px 0 var(--purple-chakra);">
+        <span class="panel-number" style="color: var(--purple-chakra);">PANEL 08 — THE SNAKE SAGE SPEAKS</span>
+        <div class="speech-bubble" style="background: #1a0a2e; color: var(--white); border-color: var(--purple-chakra);">
+          <span class="character-name" style="color: var(--purple-chakra);">🐍 OROCHIMARU</span>
+          Kukuku… You wish to proceed? Prove your worth. <br>Three riddles stand between you and the final birthday message…
+        </div>
+      </div>
+
+      <!-- Riddle 1 -->
+      <div class="riddle-card" onclick="revealRiddle(this)" style="margin-top:1.5rem">
+        <p class="riddle-q">🔸 Riddle 1: What has keys but no locks, space but no room, and you can enter — but there's no door? <br><em style="font-size:0.85rem; opacity:0.6">(Hint: Draksmer uses it daily)</em></p>
+        <p class="riddle-a">A keyboard. <br><em>...Draksmer's true weapon. Not the kunai. Never the kunai.</em> 😂</p>
+        <p class="riddle-hint">👆 Tap to reveal answer</p>
+      </div>
+
+      <!-- Riddle 2 -->
+      <div class="riddle-card" onclick="revealRiddle(this)">
+        <p class="riddle-q">🔸 Riddle 2: I speak without a mouth, hear without ears, have no body but come alive with wind. Naruto uses me before every battle. What am I?</p>
+        <p class="riddle-a">An echo — or the speech bubble that says "Believe It!" <br><em>Dattebayo!!! 🍥</em></p>
+        <p class="riddle-hint">👆 Tap to reveal answer</p>
+      </div>
+
+      <!-- Riddle 3 -->
+      <div class="riddle-card" onclick="revealRiddle(this)">
+        <p class="riddle-q">🔸 Riddle 3 (Final): What comes once in a year, twice in a lifetime, and never on a Tuesday unless you're really lucky?</p>
+        <p class="riddle-a">YOUR BIRTHDAY! 🎂 <br><em>…Well, technically once a year. But THIS one hits different.</em> 🔥</p>
+        <p class="riddle-hint">👆 Tap to reveal answer</p>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="fire-divider">⚡ ⚡ ⚡</div>
+
+  <!-- ===== CHAPTER 4: THE MEMORIES ===== -->
+  <div class="chapter-mark">— Chapter IV : The Flashback Arc —</div>
+
+  <section class="manga-panel">
+    <div class="manga-inner">
+      <div class="panel-box" data-reveal="left">
+        <span class="panel-number">PANEL 11 — FLASHBACK — SEPIA TONE</span>
+        <div class="speech-bubble">
+          <span class="character-name">💭 INNER MONOLOGUE (Draksmer, probably)</span>
+          Every shinobi has an origin story. Mine involves surviving <strong>more than a few years</strong> on this chaotic earth. Each year = one more rank up. And today…
+        </div>
+        <span class="sfx" style="font-size: clamp(1.5rem, 6vw, 3.5rem)">LEVEL UP!</span>
+      </div>
+
+      <p style="font-family:'Kalam',cursive; font-size:1rem; color:var(--ink); margin: 1rem 0 0.5rem; font-weight:700;">
+        Swipe through the friendship arc ➜
+      </p>
+      <div class="timeline-strip">
+        <div class="timeline-item" style="background: var(--paper); border-color: var(--ink); color: var(--ink)">
+          <div class="ti-title">📖 Day 1</div>
+          <div class="ti-body" style="color:var(--ink)">"Who's this person?" <br>— us, meeting Draksmer for the first time, clearly unprepared</div>
+        </div>
+        <div class="timeline-item" style="background: var(--paper); border-color: var(--ink); color: var(--ink)">
+          <div class="ti-title">🔥 Early Days</div>
+          <div class="ti-body" style="color:var(--ink)">Realized this guy's energy is dangerously contagious. Started wearing it like a jutsu.</div>
+        </div>
+        <div class="timeline-item" style="background: var(--paper); border-color: var(--ink); color: var(--ink)">
+          <div class="ti-title">💥 The Chaos Arc</div>
+          <div class="ti-body" style="color:var(--ink)">Went full Naruto together. Loud, ridiculous, and absolutely glorious. No regrets.</div>
+        </div>
+        <div class="timeline-item" style="background: var(--paper); border-color: var(--ink); color: var(--ink)">
+          <div class="ti-title">🍜 Ramen Moment</div>
+          <div class="ti-body" style="color:var(--ink)">That one time everything was fixed just by being around Draksmer. Like Ichiraku heals Naruto.</div>
+        </div>
+        <div class="timeline-item" style="background: var(--paper); border-color: var(--ink); color: var(--ink)">
+          <div class="ti-title">⭐ Right Now</div>
+          <div class="ti-body" style="color:var(--ink)">It's your BIRTHDAY and this entire scroll was built just for you. Believe it.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="fire-divider">🍜 🍜 🍜</div>
+
+  <!-- ===== CHAPTER 5: THE JUTSU SECTION ===== -->
+  <div class="chapter-mark">— Chapter V : The Forbidden Jutsu —</div>
+
+  <section style="background: #0A0A0F; padding: 4rem 2rem; text-align:center;">
+    <div style="max-width:700px; width:100%; margin:auto;">
+      <div class="panel-box" data-reveal="left" style="border-color: var(--gold); box-shadow: 6px 6px 0 var(--gold); text-align:left">
+        <span class="panel-number" style="color:var(--gold)">PANEL 14 — THE KAGE SUMMIT</span>
+        <div class="speech-bubble" style="background: #1a1500; color:var(--gold); border-color:var(--gold)">
+          <span class="character-name" style="color:var(--gold)">🌀 MINATO (The 4th Hokage)</span>
+          I once told Naruto: "I believe in you." <br>
+          Today we say the same to <strong style="color:var(--orange)">Draksmer Augustin</strong>. <br>
+          Your future is so bright it's blinding even the Sharingan.
+        </div>
+      </div>
+
+      <p style="font-family:'Orbitron',sans-serif; font-size:0.8rem; letter-spacing:0.3em; color: var(--orange); margin:2rem 0 0.5rem;">
+        PERFORM THE BIRTHDAY JUTSU
+      </p>
+      <div class="hand-seal-display" id="seal-display">・・・</div>
+      <button class="jutsu-btn" id="jutsu-btn" onclick="performJutsu()">
+        🤲 ACTIVATE JUTSU
+      </button>
+      <div class="explosion-container" id="explosion-area"></div>
+    </div>
+  </section>
+
+  <div class="fire-divider">🌀 🌀 🌀</div>
+
+  <!-- ===== CHAPTER 6: THE REAL MESSAGE ===== -->
+  <div class="chapter-mark">— Chapter VI : The Real Talk Arc —</div>
+
+  <section class="manga-panel">
+    <div class="manga-inner">
+      <div class="panel-box" data-reveal="left">
+        <span class="panel-number">PANEL 17 — NO JUTSU. JUST REAL.</span>
+        <div class="speech-bubble right">
+          <span class="character-name">✉️ MESSAGE — FROM YOUR PEOPLE</span>
+          Okay, Draksmer. Setting down the kunai for a second. <br><br>
+          Real talk? Every friend group has that one person who makes everything feel less heavy just by showing up. Who laughs loudest, cares deepest, and somehow hypes everyone else up even when they're going through it themselves.
+          <br><br>
+          That's you. <strong>That's always been you.</strong>
+        </div>
+        <p class="manga-text" style="margin-top: 1.5rem; font-size: 1rem; line-height: 1.9;">
+          In Naruto terms? You're not a side character. You're not even a supporting hero. You're the kind of person who makes the main character stronger just by existing in their story.
+        </p>
+      </div>
+
+      <div class="panel-box from-right" data-reveal="right" style="margin-top:2rem">
+        <span class="panel-number">PANEL 18 — THE VOW</span>
+        <div class="nindo-quote">
+          "My Nindo — my Ninja Way — is to never give up, never go back on my word… <br>
+          and to always remember that Draksmer Augustin is built different."
+        </div>
+        <p class="manga-text" style="text-align:right; font-size:0.85rem; opacity:0.6; margin-top:0.5rem">
+          — Naruto Uzumaki, if he'd met you tbh
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="fire-divider">🎂 🎂 🎂</div>
+
+  <!-- ===== FINAL CHAPTER: THE SEALING ===== -->
+  <div class="chapter-mark">— Final Chapter : The Wish —</div>
+
+  <section id="final">
+    <div class="final-kanji">誕生日おめでとう</div>
+    <div class="seal-circle"></div>
+
+    <h2 class="final-name" id="final-name">
+      Happy Birthday,<br>Draksmer Augustin
     </h2>
-    <p class="message-body">
-      Today marks the anniversary of when this world became a better place — the day you arrived in it.
-      Just as every Hokage before you blazed their own path through this world, you carry your own will of fire.
-      Your journey is uniquely yours, filled with battles won, bonds forged, and a spirit that refuses to give up.
-      That is the true ninja way.
+
+    <p class="final-wish" id="final-wish">
+      May this year bring you S-Rank missions only.<br>
+      May your ramen always be hot.<br>
+      May your enemies stay confused.<br>
+      May your chakra never deplete.<br>
+      And may every day feel like you've already won. <br><br>
+      <strong style="color:var(--gold)">You are the main character. Always have been. 🍥🔥</strong>
     </p>
 
-    <div class="traits-grid" id="traitsGrid">
-      <div class="trait-card" data-num="01">
-        <span class="trait-icon">🔥</span>
-        <div class="trait-title">Will of Fire</div>
-        <div class="trait-desc">Your passion is your greatest jutsu. You never back down from what matters.</div>
-      </div>
-      <div class="trait-card" data-num="02">
-        <span class="trait-icon">🌀</span>
-        <div class="trait-title">Relentless Spirit</div>
-        <div class="trait-desc">Like a rasengan that keeps spinning, you keep growing — no matter what.</div>
-      </div>
-      <div class="trait-card" data-num="03">
-        <span class="trait-icon">🌸</span>
-        <div class="trait-title">Bonds & Loyalty</div>
-        <div class="trait-desc">The people you love know they can count on you, always. That's rare and beautiful.</div>
-      </div>
-      <div class="trait-card" data-num="04">
-        <span class="trait-icon">⚡</span>
-        <div class="trait-title">Unstoppable</div>
-        <div class="trait-desc">Every obstacle you've faced only made you sharper, wiser, stronger.</div>
-      </div>
+    <div style="margin-top: 2rem; font-family: 'Cinzel Decorative', cursive; font-size: 0.75rem; letter-spacing: 0.3em; color: var(--orange); opacity: 0.6; text-align:center;">
+      — END OF SCROLL —<br>
+      <span style="font-family:'Noto Serif JP', serif; font-size: 1.5rem; color: var(--gold);">完</span>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- JUTSU / WISHES -->
-<section id="jutsu">
-  <div class="jutsu-bg"></div>
-  <div class="section-header">
-    <p class="eyebrow">Chapter 02 — The Scroll of Wishes</p>
-    <h2>Birthday <span class="orange">Jutsu</span></h2>
-  </div>
-  <div class="wishes-list" id="wishesList">
-    <div class="wish-item">
-      <span class="wish-num">01</span>
-      <div class="wish-content">
-        <h3 class="wish-title">May Your Chakra Never Run Out</h3>
-        <p class="wish-desc">May you always have the energy and vitality to chase every dream, face every challenge, and live with the intensity of a Naruto sage mode moment.</p>
-      </div>
-    </div>
-    <div class="wish-item">
-      <span class="wish-num">02</span>
-      <div class="wish-content">
-        <h3 class="wish-title">May Every Enemy Become an Ally</h3>
-        <p class="wish-desc">Just as Naruto turned his fiercest rivals into his most trusted companions, may every hardship in your path reveal itself as a hidden opportunity.</p>
-      </div>
-    </div>
-    <div class="wish-item">
-      <span class="wish-num">03</span>
-      <div class="wish-content">
-        <h3 class="wish-title">May Your Village Always Stand Strong</h3>
-        <p class="wish-desc">Your circle of people — your family, your friends, your team — may they surround you with love as fierce as the Hidden Leaf's protection.</p>
-      </div>
-    </div>
-    <div class="wish-item">
-      <span class="wish-num">04</span>
-      <div class="wish-content">
-        <h3 class="wish-title">May You Achieve Your Greatest Dream</h3>
-        <p class="wish-desc">Whatever your Hokage Mountain looks like — your life's greatest aspiration — may this year bring you meaningfully, unmistakably closer to it.</p>
-      </div>
-    </div>
-    <div class="wish-item">
-      <span class="wish-num">05</span>
-      <div class="wish-content">
-        <h3 class="wish-title">May Your Ramen Always Be Warm</h3>
-        <p class="wish-desc">May every simple joy — the warmth of a good meal, a good laugh, a quiet sunset — be as plentiful and satisfying as Ichiraku's finest bowl.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- SIGN OFF -->
-<section id="signoff">
-  <div class="firework-container" id="fireworks"></div>
-
-  <div class="spiral-seal">
-    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="50" cy="50" r="45" stroke="#FF6B00" stroke-width="1"/>
-      <path d="M50,50 Q60,30 50,10 Q30,15 25,35 Q20,55 35,65 Q55,75 70,60 Q80,40 65,25 Q45,10 25,20 Q5,35 10,60 Q15,85 40,90 Q70,95 85,70 Q95,45 80,25" stroke="#FF6B00" stroke-width="1.5" fill="none"/>
-      <circle cx="50" cy="50" r="6" fill="#FF6B00" opacity=".6"/>
-      <!-- 8 trigrams -->
-      <g opacity=".4">
-        <line x1="50" y1="5" x2="50" y2="15" stroke="#FFD700" stroke-width="1"/>
-        <line x1="50" y1="85" x2="50" y2="95" stroke="#FFD700" stroke-width="1"/>
-        <line x1="5" y1="50" x2="15" y2="50" stroke="#FFD700" stroke-width="1"/>
-        <line x1="85" y1="50" x2="95" y2="50" stroke="#FFD700" stroke-width="1"/>
-        <line x1="14" y1="14" x2="21" y2="21" stroke="#FFD700" stroke-width="1"/>
-        <line x1="79" y1="79" x2="86" y2="86" stroke="#FFD700" stroke-width="1"/>
-        <line x1="86" y1="14" x2="79" y2="21" stroke="#FFD700" stroke-width="1"/>
-        <line x1="21" y1="79" x2="14" y2="86" stroke="#FFD700" stroke-width="1"/>
-      </g>
-    </svg>
-  </div>
-
-  <h2 class="signoff-title">Happy Birthday,<br>Believe It!</h2>
-  <p class="signoff-sub">From your shinobi companion, with all the will of fire</p>
-  <span class="believe-tag">だってばよ！</span>
-</section>
+</div><!-- end scroll-wrapper -->
 
 <script>
-// ── Cursor
+// ===== CURSOR =====
 const cursor = document.getElementById('cursor');
 document.addEventListener('mousemove', e => {
   cursor.style.left = e.clientX + 'px';
   cursor.style.top = e.clientY + 'px';
 });
 
-// ── Loader
-window.addEventListener('load', () => {
-  setTimeout(() => {
-    document.getElementById('loader').classList.add('hide');
-    setTimeout(() => document.getElementById('loader').remove(), 900);
-  }, 1800);
+// ===== PROGRESS BAR =====
+const progressBar = document.getElementById('progress-bar');
+const pageNum = document.getElementById('page-num');
+window.addEventListener('scroll', () => {
+  const scrolled = window.scrollY;
+  const max = document.body.scrollHeight - window.innerHeight;
+  const pct = (scrolled / max) * 100;
+  progressBar.style.width = pct + '%';
+  const page = Math.floor((pct / 100) * 18) + 1;
+  pageNum.textContent = 'PAGE ' + String(page).padStart(3, '0');
 });
 
-// ── Stars
-const starsEl = document.getElementById('stars');
-for (let i = 0; i < 120; i++) {
-  const s = document.createElement('div');
-  s.className = 'star';
-  const size = Math.random() * 2.5 + .5;
-  s.style.cssText = `
-    width:${size}px;height:${size}px;
-    top:${Math.random()*70}%;left:${Math.random()*100}%;
-    --dur:${Math.random()*4+2}s;
-    --delay:${Math.random()*5}s;
-    opacity:${Math.random()*.6+.1};
-  `;
-  starsEl.appendChild(s);
+// ===== CHAKRA CANVAS =====
+const canvas = document.getElementById('chakra-canvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+for (let i = 0; i < 60; i++) {
+  particles.push({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    vx: (Math.random() - 0.5) * 0.3,
+    vy: (Math.random() - 0.5) * 0.3,
+    r: Math.random() * 2 + 0.5,
+    color: Math.random() > 0.5 ? '#FF6B00' : '#FFD700',
+    alpha: Math.random() * 0.5 + 0.1
+  });
 }
 
-// ── Kunai icons (using unicode)
-const kunaiChars = ['✦','✧','◆','▲','⬟'];
-const kunaiC = document.getElementById('kunaiContainer');
-for (let i = 0; i < 12; i++) {
-  const k = document.createElement('div');
-  k.className = 'kunai';
-  k.textContent = kunaiChars[i % kunaiChars.length];
-  k.style.cssText = `
-    left:${Math.random()*90+5}%;
-    top:${Math.random()*60+10}%;
-    color:rgba(255,107,0,${Math.random()*.4+.15});
-    --fdur:${Math.random()*5+5}s;
-    --fdelay:${Math.random()*6}s;
-    font-size:${Math.random()*12+10}px;
-  `;
-  kunaiC.appendChild(k);
+function animateParticles() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  for (let p of particles) {
+    p.x += p.vx; p.y += p.vy;
+    if (p.x < 0) p.x = canvas.width;
+    if (p.x > canvas.width) p.x = 0;
+    if (p.y < 0) p.y = canvas.height;
+    if (p.y > canvas.height) p.y = 0;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fillStyle = p.color;
+    ctx.globalAlpha = p.alpha;
+    ctx.fill();
+    ctx.globalAlpha = 1;
+  }
+  requestAnimationFrame(animateParticles);
 }
+animateParticles();
 
-// ── Chakra particles
-const chakraEl = document.getElementById('chakraParticles');
-for (let i = 0; i < 20; i++) {
-  const p = document.createElement('div');
-  p.className = 'chakra-particle';
-  p.style.cssText = `
-    left:${Math.random()*100}%;
-    bottom:${Math.random()*40}%;
-    --cdur:${Math.random()*4+3}s;
-    --cdelay:${Math.random()*6}s;
-  `;
-  chakraEl.appendChild(p);
-}
-
-// ── Scroll reveal for wishes
-const wishItems = document.querySelectorAll('.wish-item');
-const io = new IntersectionObserver(entries => {
-  entries.forEach((e, i) => {
-    if (e.isIntersecting) {
-      setTimeout(() => e.target.classList.add('visible'), i * 120);
+// ===== SCROLL REVEAL =====
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('revealed');
     }
   });
-}, { threshold: .15 });
-wishItems.forEach(w => io.observe(w));
+}, { threshold: 0.15 });
 
-// ── Fireworks in signoff
-const fw = document.getElementById('fireworks');
-const colors = ['#FF6B00','#FFD700','#FF4500','#4FC3F7','#FF69B4','#fff'];
-for (let i = 0; i < 50; i++) {
-  const spark = document.createElement('div');
-  spark.className = 'spark';
-  const angle = Math.random() * 360;
-  const dist = Math.random() * 100 + 40;
-  const rad = angle * Math.PI / 180;
-  spark.style.cssText = `
-    left:${Math.random()*100}%;
-    top:${Math.random()*100}%;
-    background:${colors[Math.floor(Math.random()*colors.length)]};
-    box-shadow:0 0 6px ${colors[0]};
-    --sdur:${Math.random()*2+1.5}s;
-    --sdelay:${Math.random()*4}s;
-    --sx:${Math.round(Math.cos(rad)*dist)}px;
-    --sy:${Math.round(Math.sin(rad)*dist - 80)}px;
-  `;
-  fw.appendChild(spark);
+document.querySelectorAll('.panel-box').forEach(el => observer.observe(el));
+document.querySelectorAll('.verdict-box[data-reveal-box]').forEach(el => observer.observe(el));
+
+// Chakra bars
+const chakraObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      document.querySelectorAll('.chakra-fill').forEach(fill => {
+        const w = Math.min(parseInt(fill.dataset.width), 100);
+        fill.style.width = w + '%';
+      });
+    }
+  });
+}, { threshold: 0.3 });
+const chakraWrap = document.getElementById('chakra-wrap');
+if (chakraWrap) chakraObserver.observe(chakraWrap);
+
+// Final reveal
+const finalObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      setTimeout(() => {
+        document.getElementById('final-name').classList.add('revealed');
+        document.getElementById('final-wish').classList.add('revealed');
+      }, 300);
+    }
+  });
+}, { threshold: 0.3 });
+const finalSection = document.getElementById('final');
+if (finalSection) finalObserver.observe(finalSection);
+
+// ===== RIDDLE REVEAL =====
+function revealRiddle(card) {
+  const ans = card.querySelector('.riddle-a');
+  const hint = card.querySelector('.riddle-hint');
+  ans.classList.toggle('revealed-text');
+  hint.textContent = ans.classList.contains('revealed-text') ? '🎉 There it is!' : '👆 Tap to reveal answer';
+  spawnParticles(event.clientX, event.clientY, '#FFD700');
 }
 
-// ── Jutsu button
-function triggerJutsu() {
-  const colors = ['#FF6B00','#FFD700','#4FC3F7'];
-  for (let i = 0; i < 30; i++) {
+// ===== JUTSU EFFECT =====
+const seals = ['🤟','🤜','✊','🖖','🤙','🖐️','✌️','☝️'];
+const jutsuMessages = [
+  "BIRTHDAY RASENGAN — ACTIVATED!!! 🌀",
+  "KAGE BUNSHIN NO JUTSU — Happy Birthday DRAK!!! 🍥",
+  "THOUSAND YEARS OF FRIENDSHIP JUTSU — UNLEASHED! 💥",
+  "SEXY NO JUTSU: BIRTHDAY EDITION 😂 (Just kidding)",
+];
+let jutsuDone = false;
+function performJutsu() {
+  if (jutsuDone) return;
+  jutsuDone = true;
+  const btn = document.getElementById('jutsu-btn');
+  const display = document.getElementById('seal-display');
+  btn.disabled = true;
+  btn.textContent = '⏳ CHANNELING...';
+  display.style.opacity = 1;
+
+  let i = 0;
+  const sealInterval = setInterval(() => {
+    display.textContent = seals.slice(0, i+1).join(' ');
+    i++;
+    if (i >= seals.length) {
+      clearInterval(sealInterval);
+      display.textContent = '🌀 KATON — BIRTHDAY NO JUTSU!!! 🔥';
+      btn.textContent = '💥 ' + jutsuMessages[Math.floor(Math.random()*jutsuMessages.length)];
+      launchExplosion();
+      spawnParticlesRandom(30, ['#FF6B00','#FFD700','#CC0000']);
+    }
+  }, 200);
+}
+
+function launchExplosion() {
+  const area = document.getElementById('explosion-area');
+  area.innerHTML = '';
+  for (let j = 0; j < 3; j++) {
+    const ring = document.createElement('div');
+    ring.className = 'explosion-ring';
+    ring.style.animationDelay = (j * 0.4) + 's';
+    area.appendChild(ring);
+  }
+}
+
+// ===== PARTICLE EFFECTS =====
+function spawnParticles(x, y, color) {
+  for (let i = 0; i < 12; i++) {
     const p = document.createElement('div');
+    p.className = 'particle';
+    const angle = (i / 12) * Math.PI * 2;
+    const dist = 50 + Math.random() * 60;
     p.style.cssText = `
-      position:fixed;
-      left:${50+Math.random()*20-10}vw;
-      top:${50+Math.random()*20-10}vh;
-      width:6px;height:6px;
-      border-radius:50%;
-      pointer-events:none;
-      z-index:9998;
-      background:${colors[Math.floor(Math.random()*colors.length)]};
-      animation: sparkFly ${Math.random()*1+.8}s ease-out forwards;
-      --sx:${Math.round((Math.random()-0.5)*200)}px;
-      --sy:${Math.round(-Math.random()*150-50)}px;
+      left:${x}px; top:${y}px;
+      background:${color};
+      --tx:${Math.cos(angle)*dist}px;
+      --ty:${Math.sin(angle)*dist}px;
     `;
     document.body.appendChild(p);
-    setTimeout(() => p.remove(), 2000);
+    setTimeout(() => p.remove(), 1000);
   }
-
-  // Scroll to signoff
-  setTimeout(() => {
-    document.getElementById('signoff').scrollIntoView({behavior:'smooth'});
-  }, 300);
 }
 
-// ── Parallax on hero
-window.addEventListener('scroll', () => {
-  const y = window.scrollY;
-  const sun = document.querySelector('.rising-sun');
-  if (sun) sun.style.transform = `translateX(-50%) translateY(${y*0.3}px)`;
-  const ground = document.querySelector('.silhouette-ground');
-  if (ground) ground.style.transform = `translateY(${y*0.15}px)`;
+function spawnParticlesRandom(count, colors) {
+  for (let i = 0; i < count; i++) {
+    setTimeout(() => {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const x = Math.random() * window.innerWidth;
+      const y = Math.random() * window.innerHeight;
+      const color = colors[Math.floor(Math.random() * colors.length)];
+      p.style.cssText = `
+        left:${x}px; top:${y}px;
+        width:${4+Math.random()*8}px; height:${4+Math.random()*8}px;
+        background:${color};
+        --tx:${(Math.random()-0.5)*200}px;
+        --ty:${-50-Math.random()*150}px;
+      `;
+      document.body.appendChild(p);
+      setTimeout(() => p.remove(), 1200);
+    }, i * 50);
+  }
+}
+
+// Click particles anywhere
+document.addEventListener('click', e => {
+  const colors = ['#FF6B00','#FFD700','#CC0000'];
+  spawnParticles(e.clientX, e.clientY, colors[Math.floor(Math.random()*colors.length)]);
 });
 </script>
 </body>
